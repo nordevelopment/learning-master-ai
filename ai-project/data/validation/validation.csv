@@ -1,0 +1,4 @@
+question,expected_answer,difficulty
+File write method,fs.writeFile,easy
+Promise alternative,async/await,medium
+Error handling,try/catch,easy

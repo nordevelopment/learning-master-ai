@@ -1,0 +1,27 @@
+{
+  "name": "learning-master-ai",
+  "version": "1.0.0",
+  "description": "Universal Learning Platform for AI Education and Technology Training - Educational framework that demonstrates AI fundamentals through practical implementation. Learn how AI systems work, train them with custom data, and create intelligent assistants for any domain or technology stack.",
+  "license": "MIT",
+  "author": "Norayr Petrosyan",
+  "type": "commonjs",
+  "main": "ai-core.js",
+  "scripts": {
+    "train": "node train-ai.js",
+    "test": "node test-ai-enhanced.js",
+    "chat": "node chat-server-fastify.js",
+    "demo": "node simple-ai-training.js"
+  },
+  "dependencies": {
+    "fastify": "^4.24.3",
+    "@fastify/static": "^6.12.0"
+  },
+  "devDependencies": {
+  "@types/bcrypt": "^6.0.0",
+  "@types/node": "^25.5.0",
+  "concurrently": "^9.2.1",
+  "nodemon": "^3.1.14",
+  "tsx": "^4.21.0",
+  "typescript": "^5.9.3"
+  }
+}

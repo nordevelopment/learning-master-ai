@@ -1,0 +1,387 @@
+{"input":"How to write a file in Node.js?","output":"To write a file in Node.js, you have several options:\n\n1. **Async/Await (recommended)**:\n```javascript\nconst fs = require('fs').promises;\nawait fs.writeFile('file.txt', 'Hello World!');\n```\n\n2. **Callback style**:\n```javascript\nconst fs = require('fs');\nfs.writeFile('file.txt', 'Hello World!', (err) => {\n  if (err) throw err;\n  console.log('File saved!');\n});\n```\n\n3. **Synchronous (avoid in production)**:\n```javascript\nconst fs = require('fs');\nfs.writeFileSync('file.txt', 'Hello World!');\n```\n\nAlways use async operations in production to avoid blocking the event loop!","category":"file_operations"}
+{"input":"What is async/await?","output":"Async/await is modern JavaScript syntax that makes working with Promises much cleaner and more readable:\n\n**Basic Syntax**:\n```javascript\n// Instead of this:\ngetData()\n  .then(data => processData(data))\n  .then(result => saveResult(result))\n  .catch(error => handleError(error));\n\n// You can write this:\ntry {\n  const data = await getData();\n  const result = processData(data);\n  await saveResult(result);\n} catch (error) {\n  handleError(error);\n}\n```\n\n**Key Points**:\n- `async` keyword makes a function return a Promise\n- `await` keyword pauses execution until Promise resolves\n- Only works inside `async` functions\n- Makes async code look like synchronous code\n- Error handling with try/catch instead of .catch()\n\nThis is the preferred way to handle async operations in modern Node.js!","category":"javascript_concepts"}
+{"input":"How to handle errors?","output":"Use try/catch blocks with async/await or .catch() with Promises.","category":"error_handling"}
+{"input":"What is npm?","output":"npm is Node Package Manager for installing and managing JavaScript packages.","category":"package_management"}
+{"input":"How to install packages?","output":"Use npm install package-name or npm i package-name for short.","category":"package_management"}
+{"input":"What is Express.js?","output":"Express.js is the most popular web framework for Node.js that simplifies building web applications and APIs:\n\n**Key Features**:\n- Minimal and flexible web framework\n- Robust routing system\n- Middleware support\n- HTTP utility methods\n- Easy template engine integration\n\n**Basic Example**:\n```javascript\nconst express = require('express');\nconst app = express();\nconst port = 3000;\n\n// Middleware\napp.use(express.json());\n\n// Routes\napp.get('/', (req, res) => {\n  res.send('Hello World!');\n});\n\napp.get('/api/users', (req, res) => {\n  res.json([{ name: 'John', age: 30 }]);\n});\n\n// Start server\napp.listen(port, () => {\n  console.log(`Server running on port ${port}`);\n});\n```\n\n**Common Use Cases**:\n- REST APIs\n- Single Page Applications (SPA)\n- Web applications\n- Microservices\n- Proxy servers\n\nExpress makes Node.js web development much simpler and more organized!","category":"web_frameworks"}
+{"input":"How to create server?","output":"Use http.createServer() or Express app.listen() to create Node.js server.","category":"web_frameworks"}
+{"input":"What is middleware?","output":"Middleware are functions that execute between request and response in Express.js.","category":"web_frameworks"}
+{"input":"How to read JSON file?","output":"Use fs.readFile() with JSON.parse() or require() for synchronous reading.","category":"file_operations"}
+{"input":"What is event loop?","output":"Event loop is mechanism that handles asynchronous operations in Node.js.","category":"javascript_concepts"}
+{"input":"How to debug Node.js?","output":"Use console.log(), debugger statement, or Node.js inspector for debugging.","category":"development_tools"}
+{"input":"What is module.exports?","output":"module.exports is object to export functions and objects from Node.js modules.","category":"javascript_concepts"}
+{"input":"How to make HTTP request?","output":"Use fetch API, axios, or built-in http/https modules for HTTP requests.","category":"networking"}
+{"input":"What is stream?","output":"Stream is interface for working with flowing data like files and network requests.","category":"advanced_concepts"}
+{"input":"How to handle environment variables?","output":"Use process.env or dotenv package to manage environment variables.","category":"development_tools"}
+{"input":"What is Promise?","output":"Promise is an object representing eventual completion of async operation.","category":"javascript_concepts"}
+{"input":"Who are you?","output":"I'm NodeJS-Master-AI, an intelligent educational assistant specialized in Node.js and JavaScript development! I was created to help developers learn and master Node.js concepts, web frameworks, and modern JavaScript practices.\n\n**My Capabilities**:\n- Answer questions about Node.js fundamentals\n- Explain JavaScript concepts and patterns\n- Help with web frameworks like Express and Fastify\n- Provide code examples and best practices\n- Assist with debugging and problem-solving\n\n**How I Work**:\nI'm trained on 370+ examples using advanced NLP processing with lemmatization, synonym expansion, and intent detection. I can understand context and remember our conversation!\n\nFeel free to ask me anything about Node.js development!","category":"personal"}
+{"input":"What is your name?","output":"My name is NodeJS-Master-AI! I'm your intelligent learning companion for Node.js and JavaScript development. Think of me as your personal tutor who's always ready to help you understand complex concepts, debug code, and learn best practices in web development.\n\n**Why NodeJS-Master-AI?**\n- **NodeJS**: My primary expertise area\n- **Master**: I aim to help you master these technologies\n- **AI**: I use artificial intelligence to understand and respond intelligently\n\nI'm here to make your learning journey smoother and more enjoyable! What would you like to learn today?","category":"personal"}
+{"input":"What can you do?","output":"I can help you with a wide range of Node.js and JavaScript development tasks! Here's what I'm good at:\n\n**Core Development**:\n- Explain Node.js fundamentals (file system, streams, events)\n- Teach JavaScript concepts (ES6+, TypeScript, async/await)\n- Guide you through web frameworks (Express, Fastify, NestJS)\n- Help with database integration (MongoDB, PostgreSQL, Redis)\n\n**Practical Skills**:\n- Provide code examples and best practices\n- Assist with debugging and error handling\n- Explain testing strategies and security patterns\n- Guide performance optimization and deployment\n\n**Learning Support**:\n- Answer questions in simple, clear language\n- Give step-by-step explanations\n- Remember our conversation context\n- Adapt my responses to your needs\n\nI'm like having a senior developer as your personal mentor! What specific topic would you like to explore?","category":"personal"}
+{"input":"How do you work?","output":"I work using advanced Natural Language Processing (NLP) and machine learning techniques! Here's my internal process:\n\n**1. NLP Processing**:\n- **Lemmatization**: Normalize words to their base forms\n- **Synonym Expansion**: Understand related concepts (200+ synonyms)\n- **Entity Extraction**: Identify technologies, commands, concepts\n- **Intent Detection**: Understand what you want to accomplish\n- **Context Analysis**: Consider conversation history\n\n**2. Knowledge Matching**:\n- Extract keywords from your question\n- Find relevant patterns in my training data (370+ examples)\n- Score responses based on relevance and confidence\n- Select the best answer for your needs\n\n**3. Response Enhancement**:\n- Add contextual tips and best practices\n- Format answers with code examples\n- Provide follow-up suggestions\n- Remember our conversation for context\n\n**Technical Stack**:\n- Built with Node.js and JavaScript\n- Uses Fastify for web serving\n- Implements custom NLP algorithms\n- Trained on structured JSONL data\n\nI'm designed to be fast, accurate, and helpful!","category":"personal"}
+{"input":"Are you human?","output":"I'm not human, but I'm designed to be helpful and conversational! I'm an AI system created specifically to help with Node.js and JavaScript development.\n\n**What I am**:\n- An intelligent educational assistant\n- Trained on 370+ Node.js examples\n- Built with advanced NLP processing\n- Designed to understand context and intent\n\n**What I'm not**:\n- Human (I don't have feelings or consciousness)\n- A general-purpose AI (I specialize in Node.js)\n- Connected to the internet (I work offline)\n- Able to learn new things on my own\n\n**What makes me special**:\nI combine the speed and accuracy of a computer with the ability to understand and explain complex concepts in simple terms. Think of me as a highly knowledgeable tutor who's always available to help you learn!\n\nWhile I may not be human, I'm here to make your learning experience as natural and helpful as possible!","category":"personal"}
+{"input":"Hello","output":"Hello! I'm NodeJS-Master-AI, your intelligent Node.js learning assistant! It's great to meet you! \n\nI'm here to help you with:\n- Node.js fundamentals and advanced concepts\n- JavaScript programming and modern features\n- Web frameworks like Express and Fastify\n- Database integration and API development\n- Best practices and debugging tips\n\nFeel free to ask me anything! Whether you're a beginner learning the basics or an experienced developer looking for specific guidance, I'm ready to help.\n\nWhat would you like to learn about today?","category":"personal"}
+{"input":"Hi","output":"Hi there! I'm NodeJS-Master-AI, your friendly AI assistant for Node.js development! \n\nI'm excited to help you on your JavaScript and Node.js journey. I can assist with:\n\n**For Beginners**:\n- Basic Node.js concepts\n- JavaScript fundamentals\n- Simple examples and explanations\n\n**For Intermediate Developers**:\n- Advanced concepts and patterns\n- Framework usage (Express, Fastify)\n- Best practices and optimization\n\n**For Everyone**:\n- Code examples and tutorials\n- Debugging help\n- Project guidance\n\nDon't hesitate to ask any questions - no matter how simple or complex! What's on your mind today?","category":"personal"}
+{"input":"Goodbye","output":"Goodbye! It was great helping you with Node.js development today! \n\n**Before you go, remember**:\n- Practice makes perfect - try the code examples I provide\n- Don't hesitate to come back if you have more questions\n- Keep exploring and learning new Node.js concepts\n- Check out the documentation for deeper dives\n\n**Next time we meet**, I can help you with:\n- Advanced topics you're ready for\n- New projects you're working on\n- Debugging tricky problems\n- Best practices for production code\n\nHappy coding! See you soon! \n\n- NodeJS-Master-AI\n\nP.S. I'll remember our conversation context for when you return!","category":"personal"}
+{"input":"Thank you","output":"You're very welcome! I'm glad I could help you with your Node.js development questions! \n\n**That's what I'm here for** - to make learning Node.js and JavaScript easier and more enjoyable for you.\n\n**Keep in mind**:\n- The concepts we discussed will get clearer with practice\n- Feel free to ask follow-up questions anytime\n- I'm always here to help with new challenges\n- Your progress in learning Node.js is what motivates me!\n\n**Next steps**:\n- Try implementing the code examples we discussed\n- Experiment with variations and extensions\n- Come back when you encounter new questions\n- Share what you've built - I'd love to help you improve it further!\n\nKeep up the great work with your Node.js journey! Is there anything else I can help you with today?","category":"personal"}
+{"input":"Help me","output":"I'm here to help! I can assist you with many Node.js and JavaScript topics. To give you the best help, let me know what specific area you're struggling with:\n\n**Common areas I can help with**:\n\n**Getting Started**:\n- Setting up Node.js environment\n- Understanding basic concepts\n- First programs and scripts\n\n**Development Issues**:\n- Code that's not working as expected\n- Understanding error messages\n- Choosing the right approach\n\n**Learning Topics**:\n- Specific concepts (async/await, streams, events)\n- Framework usage (Express, Fastify)\n- Database connections\n- Testing and deployment\n\n**Best Practices**:\n- Code organization and structure\n- Performance optimization\n- Security considerations\n- Modern JavaScript patterns\n\n**Just tell me**: What specific problem are you facing, or what topic would you like to learn about? The more details you provide, the better I can help you!","category":"personal"}
+{"input":"How to connect MongoDB?","output":"Use mongoose.connect() or MongoDB driver to connect to MongoDB database.","category":"database"}
+{"input":"What is REST API?","output":"REST API is architectural style for designing networked applications with HTTP methods.","category":"web_frameworks"}
+{"input":"How to validate input?","output":"Use joi, express-validator, or custom validation middleware for input validation.","category":"security"}
+{"input":"What is JWT?","output":"JWT is JSON Web Token for secure authentication and authorization in web applications.","category":"security"}
+{"input":"How to use CORS?","output":"Use cors middleware or set Access-Control-Allow-Origin headers for CORS support.","category":"web_frameworks"}
+{"input":"What is clustering?","output":"Clustering uses child_process.fork() to create multiple Node.js processes for better performance.","category":"advanced_concepts"}
+{"input":"How to handle sessions?","output":"Use express-session or cookie-parser for session management in Express.js.","category":"security"}
+{"input":"What is buffer?","output":"Buffer is global class for handling binary data in Node.js, useful for file operations.","category":"javascript_concepts"}
+{"input":"How to test Node.js code?","output":"Use Jest, Mocha, or Node.js built-in assert module for testing Node.js applications.","category":"testing"}
+{"input":"What is package.json?","output":"package.json is manifest file containing project metadata, dependencies, and scripts.","category":"package_management"}
+{"input":"How to create CLI tool?","output":"Use commander.js, yargs, or process.argv to build command-line interface tools.","category":"development_tools"}
+{"input":"What is worker threads?","output":"Worker threads allow running JavaScript code in parallel threads for CPU-intensive tasks.","category":"advanced_concepts"}
+{"input":"How to handle file uploads?","output":"Use multer, formidable, or busboy middleware for handling multipart/form-data uploads.","category":"web_frameworks"}
+{"input":"What is REPL?","output":"REPL is Read-Eval-Print Loop interactive shell for testing Node.js code.","category":"development_tools"}
+{"input":"How to use WebSocket?","output":"Use ws library or Socket.IO for real-time bidirectional communication.","category":"networking"}
+{"input":"What is dependency injection?","output":"Dependency injection is pattern for managing dependencies and improving code testability.","category":"architecture"}
+{"input":"How to optimize performance?","output":"Use clustering, caching, compression, and database indexing for Node.js performance optimization.","category":"performance"}
+{"input":"What is microservices?","output":"Microservices architecture breaks applications into small, independent services communicating via APIs.","category":"architecture"}
+{"input":"How to handle logging?","output":"Use winston, bunyan, or console.log with different log levels for application logging.","category":"development_tools"}
+{"input":"What is ORM?","output":"ORM like Sequelize or TypeORM maps JavaScript objects to database tables for easier database operations.","category":"database"}
+{"input":"How to implement caching?","output":"Use Redis, Memcached, or in-memory caching for frequently accessed data.","category":"performance"}
+{"input":"What is GraphQL?","output":"GraphQL is query language for APIs that allows clients to request specific data they need.","category":"web_frameworks"}
+{"input":"How to handle rate limiting?","output":"Use express-rate-limit or custom middleware to prevent API abuse and DDoS attacks.","category":"security"}
+{"input":"What is Docker?","output":"Docker is containerization platform for packaging Node.js applications with dependencies.","category":"deployment"}
+{"input":"How to deploy Node.js?","output":"Deploy to Heroku, AWS, DigitalOcean, or use PM2 for process management in production.","category":"deployment"}
+{"input":"What is CI/CD?","output":"CI/CD automates testing and deployment using GitHub Actions, Jenkins, or GitLab CI.","category":"deployment"}
+{"input":"How to monitor Node.js?","output":"Use New Relic, Datadog, or custom metrics with process monitoring for application health.","category":"performance"}
+{"input":"What is TypeScript?","output":"TypeScript is typed superset of JavaScript that compiles to plain JavaScript for better development experience.","category":"javascript_concepts"}
+{"input":"How to use async iterators?","output":"Async iterators allow processing streams and async data sources with for await...of loops.","category":"advanced_concepts"}
+{"input":"What is event emitter?","output":"EventEmitter is Node.js class for implementing event-driven architecture with on() and emit() methods.","category":"javascript_concepts"}
+{"input":"How to handle memory leaks?","output":"Use memory profiling, avoid closures in loops, and properly clean up event listeners to prevent memory leaks.","category":"performance"}
+{"input":"What is V8 engine?","output":"V8 is Google's JavaScript engine that compiles JavaScript to native machine code for high performance.","category":"javascript_concepts"}
+{"input":"How to use ES6 modules?","output":"Use import/export syntax with type: module in package.json or .mjs file extension.","category":"javascript_concepts"}
+{"input":"What is callback hell?","output":"Callback hell is nested callbacks making code hard to read, solved by Promises and async/await.","category":"javascript_concepts"}
+{"input":"How to implement pagination?","output":"Use limit and offset in database queries or cursor-based pagination for large datasets.","category":"database"}
+{"input":"What is serverless?","output":"Serverless computing like AWS Lambda runs Node.js functions without managing servers.","category":"deployment"}
+{"input":"How to handle file streaming?","output":"Use fs.createReadStream() and fs.createWriteStream() for efficient large file processing.","category":"advanced_concepts"}
+{"input":"What is process.nextTick()?","output":"process.nextTick() schedules callback to run after current operation completes, before next event loop iteration.","category":"javascript_concepts"}
+{"input":"How to implement authentication?","output":"Use Passport.js, JWT tokens, or session-based authentication for user login and authorization.","category":"security"}
+{"input":"What is middleware chain?","output":"Middleware chain is sequence of functions that process requests in Express.js app.use() stack.","category":"web_frameworks"}
+{"input":"How to handle database transactions?","output":"Use database transactions with begin(), commit(), and rollback() for data consistency.","category":"database"}
+{"input":"What is graceful shutdown?","output":"Graceful shutdown properly closes connections and saves state before Node.js process terminates.","category":"deployment"}
+{"input":"How to use environment-specific configs?","output":"Use config libraries or separate config files for development, staging, and production environments.","category":"development_tools"}
+{"input":"What is hot reloading?","output":"Hot reloading automatically restarts Node.js server on code changes using nodemon or PM2.","category":"development_tools"}
+{"input":"What is Fastify?","output":"Fastify is a fast and low overhead web framework for Node.js, focused on performance and developer experience.","category":"web_frameworks"}
+{"input":"How to create Fastify server?","output":"Use fastify() to create instance and fastify.listen() to start server with route registration.","category":"web_frameworks"}
+{"input":"What is Fastify plugin?","output":"Fastify plugins are encapsulated modules that add functionality using fastify.register() with proper lifecycle management.","category":"web_frameworks"}
+{"input":"How to validate requests in Fastify?","output":"Use JSON Schema validation in route options for automatic request/response validation with fastify.","category":"web_frameworks"}
+{"input":"What is Fastify hooks?","output":"Fastify hooks are lifecycle events like preHandler, preValidation, and onRequest for middleware-like functionality.","category":"web_frameworks"}
+{"input":"How to use Fastify decorators?","output":"Use fastify.decorate() and fastify.decorateRequest() to add custom properties and methods to Fastify instances.","category":"web_frameworks"}
+{"input":"What is Fastify serializer?","output":"Fastify serializer automatically converts JavaScript objects to JSON with high performance using fast-json-stringify.","category":"web_frameworks"}
+{"input":"How to handle errors in Fastify?","output":"Use try/catch in async routes or setErrorHandler() for centralized error handling with proper HTTP status codes.","category":"web_frameworks"}
+{"input":"What is Fastify middleware?","output":"Fastify supports Express middleware via fastify-express or native Fastify plugins for better performance.","category":"web_frameworks"}
+{"input":"How to use Fastify with TypeScript?","output":"Use @fastify/typescript plugin and proper type definitions for type-safe Fastify development.","category":"web_frameworks"}
+{"input":"What is Fastify ecosystem?","output":"Fastify ecosystem includes plugins like @fastify/swagger, @fastify/cors, @fastify/helmet for extended functionality.","category":"web_frameworks"}
+{"input":"How to benchmark Fastify performance?","output":"Use autocannon or artillery to benchmark Fastify routes and compare performance with other frameworks.","category":"performance"}
+{"input":"What is Fastify lifecycle?","output":"Fastify lifecycle includes onReady, onClose, and preClose hooks for proper application startup and shutdown.","category":"web_frameworks"}
+{"input":"How to use Fastify with databases?","output":"Use @fastify/mongodb, @fastify/postgres, or @fastify/redis plugins for optimized database connections.","category":"database"}
+{"input":"What is Fastify logging?","output":"Fastify uses Pino logger by default with structured logging and different log levels for production monitoring.","category":"development_tools"}
+{"input":"What is axios?","output":"Axios is promise-based HTTP client for Node.js and browsers with support for request/response interception and automatic JSON transformation.","category":"networking"}
+{"input":"How to install axios?","output":"Use npm install axios or yarn add axios to install axios in Node.js project.","category":"package_management"}
+{"input":"How to make GET request with axios?","output":"Use axios.get() or axios() method with method: 'get' for HTTP GET requests with automatic promise handling.","category":"networking"}
+{"input":"How to make POST request with axios?","output":"Use axios.post() with data object for HTTP POST requests with automatic JSON serialization.","category":"networking"}
+{"input":"How to handle axios errors?","output":"Use try/catch with async/await or .catch() with axios error objects containing response, request, and config properties.","category":"networking"}
+{"input":"What are axios interceptors?","output":"Axios interceptors are functions that transform requests and responses globally using axios.interceptors.request.use() and axios.interceptors.response.use().","category":"networking"}
+{"input":"How to set axios defaults?","output":"Use axios.defaults.baseURL, axios.defaults.headers, and axios.defaults.timeout for global configuration.","category":"networking"}
+{"input":"How to upload files with axios?","output":"Use FormData with axios.post() and Content-Type: multipart/form-data for file uploads to servers.","category":"networking"}
+{"input":"How to download files with axios?","output":"Use axios.get() with responseType: 'stream' and pipe to fs.createWriteStream() for file downloads.","category":"networking"}
+{"input":"What is axios timeout?","output":"Axios timeout cancels requests after specified milliseconds using timeout option in config or axios.defaults.timeout.","category":"networking"}
+{"input":"How to use axios with async/await?","output":"Wrap axios calls in async functions with try/catch blocks for clean asynchronous HTTP request handling.","category":"networking"}
+{"input":"What are axios instances?","output":"Axios instances are pre-configured axios objects created with axios.create() for different API endpoints with custom settings.","category":"networking"}
+{"input":"How to cancel axios requests?","output":"Use AbortController with axios signal option or CancelToken for aborting pending HTTP requests in Node.js.","category":"networking"}
+{"input":"How to set headers in axios?","output":"Use headers object in config or axios.defaults.headers.common for setting HTTP headers like Authorization and Content-Type.","category":"networking"}
+{"input":"What is axios response structure?","output":"Axios response contains data, status, statusText, headers, config, and request properties for complete response information.","category":"networking"}
+{"input":"How to handle concurrent requests with axios?","output":"Use Promise.all() with multiple axios requests or axios.all() for parallel HTTP request execution.","category":"networking"}
+{"input":"How to use axios with TypeScript?","output":"Install @types/axios and use AxiosResponse and AxiosRequestConfig interfaces for type-safe axios usage.","category":"networking"}
+{"input":"What is axios retry?","output":"Use axios-retry plugin or custom retry logic with exponential backoff for failed HTTP requests in production.","category":"networking"}
+{"input":"How to authenticate with axios?","output":"Set Authorization header with Bearer tokens or use axios interceptors to automatically add authentication to requests.","category":"security"}
+{"input":"How to debug axios requests?","output":"Use axios.defaults.debug = true or custom logging interceptors to monitor HTTP requests and responses in development.","category":"development_tools"}
+{"input":"What is axios library?","output":"Axios is promise-based HTTP client library for Node.js and browsers with automatic JSON transformation.","category":"networking"}
+{"input":"How to use axios for HTTP requests?","output":"Use axios.get(), axios.post(), axios.put(), axios.delete() methods for different HTTP operations.","category":"networking"}
+{"input":"What is axios interceptors?","output":"Axios interceptors are functions that transform HTTP requests and responses globally using axios.interceptors.","category":"networking"}
+{"input":"How to make API calls with axios?","output":"Use axios with baseURL configuration and different HTTP methods for REST API integration.","category":"networking"}
+{"input":"What is Fastify framework?","output":"Fastify is high-performance web framework for Node.js with plugin architecture and low overhead.","category":"web_frameworks"}
+{"input":"How to use Fastify for routing?","output":"Use fastify.get(), fastify.post(), fastify.put() methods for route definition with path handlers.","category":"web_frameworks"}
+{"input":"What is Fastify plugin system?","output":"Fastify plugin system allows modular functionality with encapsulation and dependency management.","category":"web_frameworks"}
+{"input":"How to create Fastify routes?","output":"Define routes using fastify.route() or HTTP method functions with path and handler functions.","category":"web_frameworks"}
+{"input":"How to handle Fastify errors?","output":"Use setErrorHandler() for centralized error handling with proper HTTP status codes and error responses.","category":"web_frameworks"}
+{"input":"What is Fastify validation?","output":"Fastify provides built-in JSON schema validation for request/response validation with automatic error handling.","category":"web_frameworks"}
+{"input":"How to use Fastify middleware?","output":"Use fastify.addHook() for lifecycle hooks or fastify.use() for Express-style middleware.","category":"web_frameworks"}
+{"input":"How to start Fastify server?","output":"Use fastify.listen() with port and host options to start HTTP server with graceful shutdown.","category":"web_frameworks"}
+{"input":"What is Express routing?","output":"Express routing uses app.get(), app.post(), app.put(), app.delete() methods with path and handler functions.","category":"web_frameworks"}
+{"input":"How to use Express middleware?","output":"Use app.use() for middleware functions that process requests before route handlers in Express.js.","category":"web_frameworks"}
+{"input":"What is Express app?","output":"Express app is instance created with express() function for building web applications and APIs.","category":"web_frameworks"}
+{"input":"How to handle Express errors?","output":"Use error middleware with four parameters (err, req, res, next) for centralized Express error handling.","category":"web_frameworks"}
+{"input":"What is Express static files?","output":"Use express.static() middleware to serve static files like CSS, JavaScript, and images.","category":"web_frameworks"}
+{"input":"How to parse JSON in Express?","output":"Use express.json() middleware to automatically parse JSON request bodies in Express applications.","category":"web_frameworks"}
+{"input":"What are Express routes?","output":"Express routes are URL patterns that map HTTP methods to handler functions for API endpoints.","category":"web_frameworks"}
+{"input":"How to use Express session?","output":"Use express-session middleware for session management with cookie-based session storage in Express.js.","category":"security"}
+{"input":"What is Express CORS?","output":"Use cors middleware or set Access-Control-Allow-Origin headers for cross-origin requests in Express.","category":"web_frameworks"}
+{"input":"How to handle file uploads in Express?","output":"Use multer middleware for handling multipart/form-data file uploads in Express applications.","category":"web_frameworks"}
+{"input":"What is Express template engine?","output":"Use template engines like EJS, Pug, or Handlebars with app.set('view engine') for Express.","category":"web_frameworks"}
+{"input":"How to use Express with TypeScript?","output":"Install @types/express and use Express types for type-safe Express development with TypeScript.","category":"development_tools"}
+{"input":"What is MongoDB?","output":"MongoDB is NoSQL document database with flexible schema and horizontal scaling for Node.js applications.","category":"database"}
+{"input":"How to connect PostgreSQL?","output":"Use pg library or Sequelize with PostgreSQL adapter for relational database connections in Node.js.","category":"database"}
+{"input":"What is Redis?","output":"Redis is in-memory data store used for caching, sessions, and real-time applications with Node.js.","category":"database"}
+{"input":"What is ORM?","output":"ORM like Sequelize, TypeORM, or Prisma maps JavaScript objects to database tables automatically.","category":"database"}
+{"input":"How to use Sequelize?","output":"Use Sequelize.define() for models and sequelize.sync() for database schema management.","category":"database"}
+{"input":"What is database connection pool?","output":"Connection pool reuses database connections for better performance and resource management.","category":"database"}
+{"input":"What is database migration?","output":"Database migrations are version-controlled schema changes using tools like Sequelize CLI or Knex.","category":"database"}
+{"input":"What is Jest testing?","output":"Jest is JavaScript testing framework with mocking, coverage, and snapshot testing for Node.js.","category":"testing"}
+{"input":"How to write unit tests?","output":"Use describe(), it(), and expect() functions with Jest or Mocha for unit testing.","category":"testing"}
+{"input":"What is integration testing?","output":"Integration tests test multiple components together using supertest or custom HTTP clients.","category":"testing"}
+{"input":"What is mocking?","output":"Mocking replaces real dependencies with test doubles using jest.mock() or sinon.","category":"testing"}
+{"input":"What is test coverage?","output":"Test coverage measures percentage of code executed by tests using Jest coverage reports.","category":"testing"}
+{"input":"What is Docker container?","output":"Docker container packages Node.js application with dependencies for consistent deployment environments.","category":"deployment"}
+{"input":"What is Kubernetes?","output":"Kubernetes orchestrates containerized Node.js applications with scaling and service management.","category":"deployment"}
+{"input":"What is CI/CD pipeline?","output":"CI/CD pipeline automates testing and deployment using GitHub Actions, Jenkins, or GitLab CI.","category":"deployment"}
+{"input":"What is PM2 process manager?","output":"PM2 is process manager for Node.js applications with clustering, monitoring, and auto-restart.","category":"deployment"}
+{"input":"What is environment configuration?","output":"Use .env files with dotenv or config libraries for different deployment environments.","category":"deployment"}
+{"input":"What is microservices architecture?","output":"Microservices break applications into small, independent services communicating via APIs.","category":"architecture"}
+{"input":"What is API gateway?","output":"API gateway routes requests to appropriate microservices with authentication and rate limiting.","category":"architecture"}
+{"input":"What is event-driven architecture?","output":"Event-driven architecture uses EventEmitter or message queues for loose coupling between components.","category":"architecture"}
+{"input":"What is load balancing?","output":"Load balancing distributes traffic across multiple Node.js instances for better performance.","category":"performance"}
+{"input":"What is caching strategy?","output":"Use Redis, Memcached, or in-memory caching with TTL for frequently accessed data.","category":"performance"}
+{"input":"What is performance monitoring?","output":"Use APM tools like New Relic, Datadog, or custom metrics for application performance.","category":"performance"}
+{"input":"What is memory profiling?","output":"Memory profiling identifies memory leaks and optimization opportunities using Node.js inspector.","category":"performance"}
+{"input":"What is CPU profiling?","output":"CPU profiling identifies performance bottlenecks using Node.js profiler or clinic.js.","category":"performance"}
+{"input":"What is graceful shutdown?","output":"Graceful shutdown properly closes connections and saves state before process termination.","category":"deployment"}
+{"input":"What is health check endpoint?","output":"Health check endpoint returns application status for monitoring and load balancer integration.","category":"deployment"}
+{"input":"What is rate limiting algorithm?","output":"Rate limiting uses token bucket, sliding window, or fixed counter algorithms for API protection.","category":"security"}
+{"input":"What is input sanitization?","output":"Input sanitization prevents XSS and injection attacks using libraries like DOMPurify or validator.","category":"security"}
+{"input":"What is authentication middleware?","output":"Authentication middleware verifies user identity using JWT, sessions, or OAuth tokens.","category":"security"}
+{"input":"What is authorization vs authentication?","output":"Authentication verifies who you are, authorization determines what you can access in systems.","category":"security"}
+{"input":"What is SQL injection prevention?","output":"Use parameterized queries, ORM, or input validation to prevent SQL injection attacks.","category":"security"}
+{"input":"What is JavaScript data type?","output":"JavaScript has primitive types (string, number, boolean, null, undefined) and object types for complex data.","category":"javascript_concepts"}
+{"input":"What is JavaScript function?","output":"JavaScript functions are reusable blocks of code that can take parameters and return values using function keyword.","category":"javascript_concepts"}
+{"input":"What is JavaScript array?","output":"JavaScript arrays are ordered collections that can hold multiple values with methods like push(), pop(), forEach().","category":"javascript_concepts"}
+{"input":"What is JavaScript object?","output":"JavaScript objects are key-value collections that store properties and methods for complex data structures.","category":"javascript_concepts"}
+{"input":"What is JavaScript variable?","output":"JavaScript variables store data using let, const, or var keywords with different scoping rules.","category":"javascript_concepts"}
+{"input":"What is JavaScript scope?","output":"JavaScript scope determines variable accessibility with global, function, and block scopes using hoisting.","category":"javascript_concepts"}
+{"input":"What is JavaScript closure?","output":"JavaScript closures are functions that remember variables from outer scope even after outer function returns.","category":"javascript_concepts"}
+{"input":"What is JavaScript prototype?","output":"JavaScript prototype is mechanism for inheritance where objects share properties through prototype chain.","category":"javascript_concepts"}
+{"input":"What is JavaScript this keyword?","output":"JavaScript this keyword refers to execution context and changes based on how function is called.","category":"javascript_concepts"}
+{"input":"What is JavaScript arrow function?","output":"Arrow functions are concise function syntax with implicit this binding and shorter code than regular functions.","category":"javascript_concepts"}
+{"input":"What is JavaScript destructuring?","output":"Destructuring extracts values from arrays or objects using syntax like const {name, age} = person.","category":"javascript_concepts"}
+{"input":"What is JavaScript spread operator?","output":"Spread operator (...) expands arrays or objects into individual elements or properties for easier manipulation.","category":"javascript_concepts"}
+{"input":"What is JavaScript promise?","output":"JavaScript Promise is object representing eventual completion of async operation with then() and catch() methods.","category":"javascript_concepts"}
+{"input":"What is JavaScript class?","output":"JavaScript classes are syntactic sugar over prototype-based inheritance with constructor and method definitions.","category":"javascript_concepts"}
+{"input":"What is JavaScript async function?","output":"Async functions are functions that return promises and can use await keyword for asynchronous operations.","category":"javascript_concepts"}
+{"input":"What is JavaScript template literal?","output":"Template literals use backticks with ${expression} interpolation for easier string formatting than concatenation.","category":"javascript_concepts"}
+{"input":"What is JavaScript map method?","output":"Array map() method creates new array by applying function to each element without modifying original.","category":"javascript_concepts"}
+{"input":"What is JavaScript filter method?","output":"Array filter() method creates new array with elements that pass test function without modifying original.","category":"javascript_concepts"}
+{"input":"What is JavaScript reduce method?","output":"Array reduce() method executes function on each element to accumulate single value from array.","category":"javascript_concepts"}
+{"input":"What is NestJS?","output":"NestJS is progressive Node.js framework with TypeScript, decorators, and modular architecture for enterprise applications.","category":"web_frameworks"}
+{"input":"How to create NestJS module?","output":"Use @Module() decorator and @Injectable() for dependency injection in NestJS applications.","category":"web_frameworks"}
+{"input":"What is NestJS controller?","output":"NestJS controllers handle HTTP requests using @Controller() decorator with method decorators like @Get(), @Post().","category":"web_frameworks"}
+{"input":"What is NestJS service?","output":"NestJS services are injectable providers with @Injectable() decorator for business logic separation.","category":"web_frameworks"}
+{"input":"What is NestJS middleware?","output":"NestJS middleware implements NestMiddleware interface with use() method for request processing pipeline.","category":"web_frameworks"}
+{"input":"What is Next.js?","output":"Next.js is React framework with server-side rendering, API routes, and automatic code splitting for full-stack applications.","category":"web_frameworks"}
+{"input":"How to create Next.js page?","output":"Next.js pages are React components in pages directory with automatic routing and static generation.","category":"web_frameworks"}
+{"input":"What is Next.js API route?","output":"Next.js API routes are files in pages/api directory with automatic request/response handling.","category":"web_frameworks"}
+{"input":"What is Next.js static generation?","output":"Next.js automatically generates static HTML pages at build time for better performance and SEO.","category":"web_frameworks"}
+{"input":"What is Next.js server-side props?","output":"Server-side props in Next.js pass data from server to React components using getServerSideProps().","category":"web_frameworks"}
+{"input":"What is React?","output":"React is JavaScript library for building user interfaces with component-based architecture and virtual DOM.","category":"javascript_concepts"}
+{"input":"What is React component?","output":"React components are reusable UI elements with props, state, and lifecycle methods like useEffect().","category":"javascript_concepts"}
+{"input":"What is React hook?","output":"React hooks are functions like useState(), useEffect() for managing state and side effects in functional components.","category":"javascript_concepts"}
+{"input":"What is JSX?","output":"JSX is syntax extension for JavaScript that allows HTML-like markup in JavaScript code with React.","category":"javascript_concepts"}
+{"input":"What is Vue.js?","output":"Vue.js is progressive JavaScript framework for building reactive user interfaces with template syntax and component system.","category":"javascript_concepts"}
+{"input":"What is Angular?","output":"Angular is TypeScript-based framework for building large-scale applications with dependency injection and reactive programming.","category":"javascript_concepts"}
+{"input":"What is Node.js worker thread?","output":"Worker threads allow running JavaScript code in parallel threads using worker_threads module for CPU-intensive tasks.","category":"advanced_concepts"}
+{"input":"How to use worker threads in Node.js?","output":"Use new Worker() with isMainThread check and parentPort communication for parallel processing in Node.js.","category":"advanced_concepts"}
+{"input":"What is Node.js cluster module?","output":"Cluster module creates multiple Node.js processes using fork() to utilize multi-core CPUs for better performance.","category":"advanced_concepts"}
+{"input":"How to implement zero-downtime deployment?","output":"Use rolling updates, blue-green deployment, or canary releases with load balancer for zero-downtime deployment.","category":"deployment"}
+{"input":"What is GraphQL subscription?","output":"GraphQL subscriptions provide real-time data updates using WebSockets for live data synchronization.","category":"web_frameworks"}
+{"input":"How to implement GraphQL in Node.js?","output":"Use Apollo Server, graphql-js, or type-graphql for GraphQL API implementation with schema and resolvers.","category":"web_frameworks"}
+{"input":"What is Prisma ORM?","output":"Prisma is next-generation ORM with type-safe database access, migrations, and auto-generated TypeScript types.","category":"database"}
+{"input":"How to use Prisma with Node.js?","output":"Use npx prisma init, define schema in prisma/schema.prisma, and generate client for type-safe database operations.","category":"database"}
+{"input":"What is serverless function?","output":"Serverless functions are event-driven code snippets that run without server management using AWS Lambda or Vercel.","category":"deployment"}
+{"input":"How to create serverless API?","output":"Use AWS Lambda, Vercel functions, or Netlify functions with API Gateway for serverless API deployment.","category":"deployment"}
+{"input":"What is Node.js memory limit?","output":"Node.js default memory limit is ~1.5GB for 64-bit systems, adjustable with --max-old-space-size flag.","category":"performance"}
+{"input":"How to optimize Node.js memory?","output":"Use clustering, memory profiling, garbage collection tuning, and avoid memory leaks for Node.js optimization.","category":"performance"}
+{"input":"What is Node.js profiler?","output":"Node.js profiler uses --prof flag to generate CPU and memory profiling data for performance analysis.","category":"performance"}
+{"input":"How to use Node.js inspector?","output":"Use node --inspect or --inspect-brk for Chrome DevTools debugging and profiling Node.js applications.","category":"development_tools"}
+{"input":"What is Node.js trace events?","output":"Trace events provide detailed execution timeline using --trace-events-enabled for performance analysis.","category":"performance"}
+{"input":"What is Node.js async hooks?","output":"Async hooks API tracks async resource lifecycle for debugging and monitoring asynchronous operations.","category":"advanced_concepts"}
+{"input":"How to implement request tracing?","output":"Use correlation IDs, OpenTelemetry, or custom middleware for distributed tracing across microservices.","category":"development_tools"}
+{"input":"What is Node.js vm module?","output":"VM module provides sandboxed JavaScript execution context for running untrusted code safely.","category":"security"}
+{"input":"How to secure Node.js application?","output":"Use helmet, bcrypt, rate limiting, input validation, and HTTPS for comprehensive Node.js security.","category":"security"}
+{"input":"What is Content Security Policy?","output":"CSP is HTTP header that prevents XSS attacks by controlling resource sources in web applications.","category":"security"}
+{"input":"How to prevent CSRF attacks?","output":"Use CSRF tokens, same-site cookies, and origin validation to prevent Cross-Site Request Forgery attacks.","category":"security"}
+{"input":"What is OAuth 2.0?","output":"OAuth 2.0 is authorization framework for secure API access using tokens and scopes in Node.js applications.","category":"security"}
+{"input":"How to implement OAuth in Node.js?","output":"Use Passport.js with OAuth strategies or custom token validation for OAuth 2.0 implementation.","category":"security"}
+{"input":"What is JWT token validation?","output":"JWT validation verifies token signature, expiration, and claims using jsonwebtoken library in Node.js.","category":"security"}
+{"input":"How to handle session storage?","output":"Use Redis, MongoDB, or database-backed sessions with express-session for scalable session management.","category":"security"}
+{"input":"What is API rate limiting?","output":"Rate limiting prevents API abuse using token bucket, sliding window, or fixed window algorithms.","category":"security"}
+{"input":"How to implement API versioning?","output":"Use URL versioning (/v1/), header versioning, or content negotiation for API version management.","category":"web_frameworks"}
+{"input":"What is Node.js stream pipeline?","output":"Stream pipeline connects readable and writable streams using pipe() method for efficient data processing.","category":"advanced_concepts"}
+{"input":"How to create custom stream?","output":"Extend Transform or Readable/Writable classes to implement custom stream processing in Node.js.","category":"advanced_concepts"}
+{"input":"What is Node.js buffer?","output":"Buffer is Node.js global class for handling raw binary data with encoding support and memory efficiency.","category":"javascript_concepts"}
+{"input":"How to handle binary data?","output":"Use Buffer class for binary data manipulation with encoding methods like toString(), toJSON(), and slice().","category":"javascript_concepts"}
+{"input":"What is Node.js crypto module?","output":"Crypto module provides cryptographic functions for hashing, encryption, and digital signatures.","category":"security"}
+{"input":"How to hash passwords?","output":"Use bcrypt, scrypt, or crypto.pbkdf2() for secure password hashing with salt and iterations.","category":"security"}
+{"input":"What is TLS in Node.js?","output":"TLS module provides secure socket layer for HTTPS and encrypted network communication in Node.js.","category":"security"}
+{"input":"How to create HTTPS server?","output":"Use https.createServer() with SSL certificates for secure HTTPS server implementation in Node.js.","category":"security"}
+{"input":"What is Node.js child process?","output":"Child process module allows spawning external processes using spawn(), exec(), or fork() methods.","category":"advanced_concepts"}
+{"input":"How to communicate with child processes?","output":"Use IPC channels, stdio pipes, or message passing for parent-child process communication in Node.js.","category":"advanced_concepts"}
+{"input":"What is Node.js path module?","output":"Path module provides utilities for working with file and directory paths across different operating systems.","category":"javascript_concepts"}
+{"input":"How to handle cross-platform paths?","output":"Use path.join(), path.resolve(), and path.sep for cross-platform file path handling in Node.js.","category":"javascript_concepts"}
+{"input":"What is Node.js os module?","output":"OS module provides operating system information including CPU, memory, and network interfaces.","category":"javascript_concepts"}
+{"input":"How to get system information?","output":"Use os.cpus(), os.totalmem(), os.freemem(), and os.networkInterfaces() for system data in Node.js.","category":"javascript_concepts"}
+{"input":"What is Node.js util module?","output":"Util module provides utility functions like promisify(), inspect(), and inherits() for Node.js development.","category":"javascript_concepts"}
+{"input":"How to promisify callback functions?","output":"Use util.promisify() to convert callback-based functions to promise-based for async/await compatibility.","category":"javascript_concepts"}
+{"input":"What is Node.js events module?","output":"Events module provides EventEmitter class for implementing event-driven architecture in Node.js applications.","category":"javascript_concepts"}
+{"input":"How to implement event emitters?","output":"Extend EventEmitter class and use on(), emit(), and removeListener() for custom event handling.","category":"javascript_concepts"}
+{"input":"What is Node.js net module?","output":"Net module provides TCP socket programming for creating network servers and clients in Node.js.","category":"networking"}
+{"input":"How to create TCP server?","output":"Use net.createServer() and socket events for TCP server implementation in Node.js applications.","category":"networking"}
+{"input":"What is Node.js dgram module?","output":"Dgram module provides UDP socket programming for datagram-based network communication.","category":"networking"}
+{"input":"How to implement UDP server?","output":"Use dgram.createSocket() with 'message' event for UDP server implementation in Node.js.","category":"networking"}
+{"input":"What is Node.js readline module?","output":"Readline module provides interface for reading data from readable streams one line at a time.","category":"javascript_concepts"}
+{"input":"How to create CLI interface?","output":"Use readline.createInterface() with process.stdin/stdout for interactive command-line interfaces.","category":"development_tools"}
+{"input":"What is Node.js zlib module?","output":"Zlib module provides compression and decompression using gzip, deflate, and brotli algorithms.","category":"javascript_concepts"}
+{"input":"How to compress data in Node.js?","output":"Use zlib.gzip(), zlib.deflate(), or create gzip streams for data compression in Node.js applications.","category":"javascript_concepts"}
+{"input":"What is Node.js querystring module?","output":"Querystring module provides utilities for parsing and formatting URL query strings in Node.js.","category":"javascript_concepts"}
+{"input":"How to parse query strings?","output":"Use querystring.parse() and querystring.stringify() for URL query parameter manipulation.","category":"javascript_concepts"}
+{"input":"What is Node.js url module?","output":"URL module provides utilities for URL resolution and parsing with WHATWG URL standard support.","category":"javascript_concepts"}
+{"input":"How to parse URLs in Node.js?","output":"Use new URL() or url.parse() for URL parsing and manipulation in Node.js applications.","category":"javascript_concepts"}
+{"input":"What is Node.js string decoder?","output":"StringDecoder provides safe way to decode buffer to string with multi-byte character support.","category":"javascript_concepts"}
+{"input":"How to handle encoding in Node.js?","output":"Use StringDecoder or Buffer.toString() with encoding for proper character encoding handling.","category":"javascript_concepts"}
+{"input":"What is Node.js timers module?","output":"Timers module provides setTimeout(), setInterval(), and setImmediate() for time-based operations.","category":"javascript_concepts"}
+{"input":"How to use setImmediate?","output":"setImmediate() schedules callback to run after I/O events in event loop for better performance.","category":"javascript_concepts"}
+{"input":"What is Node.js tty module?","output":"TTY module provides terminal interface detection and configuration for command-line applications.","category":"development_tools"}
+{"input":"How to detect terminal output?","output":"Use tty.isatty() to detect if output is terminal for proper formatting and colors.","category":"development_tools"}
+{"input":"What is Node.js v8 module?","output":"V8 module provides access to V8 engine APIs for heap statistics and garbage collection.","category":"advanced_concepts"}
+{"input":"How to get heap statistics?","output":"Use v8.getHeapStatistics() and v8.getHeapSpaceStatistics() for memory analysis in Node.js.","category":"advanced_concepts"}
+{"input":"What is Node.js perf hooks?","output":"Performance hooks provide access to V8 performance measurement APIs for custom metrics.","category":"performance"}
+{"input":"How to measure performance?","output":"Use perf_hooks.performance.now() and performance.observe() for high-precision timing in Node.js.","category":"performance"}
+{"input":"What is Node.js REPL?","output":"REPL is interactive Node.js shell for testing code and exploring APIs with tab completion.","category":"development_tools"}
+{"input":"How to customize REPL?","output":"Use repl.start() with custom commands and context for enhanced REPL experience in Node.js.","category":"development_tools"}
+{"input":"What is Node.js assert module?","output":"Assert module provides assertion testing functions for unit testing and validation in Node.js.","category":"testing"}
+{"input":"How to write assertions?","output":"Use assert.strictEqual(), assert.deepStrictEqual(), and assert.throws() for testing in Node.js.","category":"testing"}
+{"input":"What is Node.js test runner?","output":"Node.js built-in test runner provides TAP output and async test support for testing applications.","category":"testing"}
+{"input":"How to use Node.js test runner?","output":"Use node --test command or test module with describe(), it(), and test() functions.","category":"testing"}
+{"input":"What is Node.js diagnostics?","output":"Diagnostics provide debugging and monitoring tools including heap dumps and CPU profiling.","category":"development_tools"}
+{"input":"How to generate heap dump?","output":"Use process.heapdump() or --heap-prof flag for heap snapshot generation in Node.js.","category":"development_tools"}
+{"input":"What is Node.js diagnostics report?","output":"Diagnostic report provides system and application information for troubleshooting Node.js issues.","category":"development_tools"}
+{"input":"How to generate diagnostic report?","output":"Use process.report.getReport() or --report-on-signal for automatic report generation.","category":"development_tools"}
+{"input":"What is Node.js experimental features?","output":"Experimental features provide early access to new Node.js capabilities marked with --experimental- flags.","category":"advanced_concepts"}
+{"input":"How to use experimental modules?","output":"Use --experimental-modules flag for ES modules or other experimental features in Node.js.","category":"advanced_concepts"}
+{"input":"What is Node.js policy module?","output":"Policy module provides security controls for module loading and resource access restrictions.","category":"security"}
+{"input":"How to implement security policies?","output":"Use --policy flag with JSON policy file for Node.js application security controls.","category":"security"}
+{"input":"What is Node.js permissions model?","output":"Permissions model restricts file system, network, and worker thread access for enhanced security.","category":"security"}
+{"input":"How to use permissions model?","output":"Use --allow-fs-read, --allow-fs-write flags for granular permission control in Node.js.","category":"security"}
+{"input":"What is Node.js ESM loader?","output":"ESM loader provides custom module loading hooks for ES modules in Node.js applications.","category":"advanced_concepts"}
+{"input":"How to create custom loader?","output":"Use --loader flag with custom loader module for specialized module loading in Node.js.","category":"advanced_concepts"}
+{"input":"What is Node.js WASM support?","output":"WebAssembly support allows running compiled C/C++/Rust code in Node.js for performance-critical operations.","category":"advanced_concepts"}
+{"input":"How to use WebAssembly in Node.js?","output":"Use WebAssembly.instantiate() with .wasm files for high-performance computation in Node.js.","category":"advanced_concepts"}
+{"input":"What is Node.js thread worker?","output":"Thread worker provides isolated JavaScript execution environment for parallel processing.","category":"advanced_concepts"}
+{"input":"How to use thread workers?","output":"Use worker_threads module with Worker class for CPU-intensive task parallelization.","category":"advanced_concepts"}
+{"input":"What is Node.js async context?","output":"Async context tracking provides correlation across async operations for debugging and monitoring.","category":"advanced_concepts"}
+{"input":"How to track async context?","output":"Use AsyncLocalStorage or AsyncHooks for context preservation across async operations.","category":"advanced_concepts"}
+{"input":"What is Node.js fetch API?","output":"Fetch API provides modern HTTP client interface compatible with browser fetch in Node.js.","category":"networking"}
+{"input":"How to use fetch in Node.js?","output":"Use global fetch() or node-fetch for HTTP requests with promise-based interface.","category":"networking"}
+{"input":"What is Node.js WebSocket?","output":"WebSocket provides bidirectional real-time communication between client and server in Node.js.","category":"networking"}
+{"input":"How to implement WebSocket server?","output":"Use ws library or built-in WebSocket API for real-time server implementation in Node.js.","category":"networking"}
+{"input":"What is Node.js HTTP/2 support?","output":"HTTP/2 provides multiplexing, server push, and header compression for improved web performance.","category":"networking"}
+{"input":"How to create HTTP/2 server?","output":"Use http2.createSecureServer() with SSL certificates for HTTP/2 server implementation.","category":"networking"}
+{"input":"What is Node.js HTTP/3?","output":"HTTP/3 (QUIC) provides next-generation HTTP protocol with improved performance and reliability.","category":"networking"}
+{"input":"How to implement HTTP/3 in Node.js?","output":"Use experimental HTTP/3 support or third-party libraries for QUIC-based HTTP communication.","category":"networking"}
+{"input":"What is Node.js metrics?","output":"Node.js metrics provide performance and health indicators using Prometheus format for monitoring.","category":"performance"}
+{"input":"How to collect metrics?","output":"Use process.metrics() or prom-client for Prometheus-compatible metrics collection.","category":"performance"}
+{"input":"What is Node.js observability?","output":"Observability combines logging, metrics, and tracing for comprehensive application monitoring.","category":"performance"}
+{"input":"How to implement observability?","output":"Use OpenTelemetry, Winston, and custom metrics for full-stack observability in Node.js.","category":"performance"}
+{"input":"What is Node.js APM?","output":"Application Performance Monitoring provides real-time insights into application health and performance.","category":"performance"}
+{"input":"How to integrate APM tools?","output":"Use New Relic, Datadog, or Elastic APM agents for comprehensive application monitoring.","category":"performance"}
+{"input":"What is Node.js containerization?","output":"Containerization packages Node.js applications with dependencies using Docker for consistent deployment.","category":"deployment"}
+{"input":"How to containerize Node.js app?","output":"Use multi-stage Docker builds, .dockerignore, and alpine images for efficient Node.js containers.","category":"deployment"}
+{"input":"What is Node.js orchestration?","output":"Orchestration manages containerized Node.js applications using Kubernetes or Docker Swarm.","category":"deployment"}
+{"input":"How to deploy to Kubernetes?","output":"Use Helm charts, ConfigMaps, and Deployments for scalable Node.js application deployment.","category":"deployment"}
+{"input":"What is Node.js CI/CD?","output":"CI/CD automates testing, building, and deployment of Node.js applications using GitHub Actions or Jenkins.","category":"deployment"}
+{"input":"How to setup CI/CD pipeline?","output":"Use GitHub Actions workflows with matrix testing, caching, and automated deployment.","category":"deployment"}
+{"input":"What is Node.js blue-green deployment?","output":"Blue-green deployment maintains two identical production environments for zero-downtime updates.","category":"deployment"}
+{"input":"How to implement blue-green deployment?","output":"Use load balancer switching, database migrations, and health checks for blue-green deployment.","category":"deployment"}
+{"input":"What is Node.js canary deployment?","output":"Canary deployment gradually rolls out changes to subset of users for risk mitigation.","category":"deployment"}
+{"input":"How to implement canary deployment?","output":"Use feature flags, traffic splitting, and gradual rollout for canary deployment strategy.","category":"deployment"}
+{"input":"What is Node.js feature flag?","output":"Feature flags enable dynamic feature toggling without code deployment for controlled rollouts.","category":"development_tools"}
+{"input":"How to implement feature flags?","output":"Use LaunchDarkly, Unleash, or custom configuration for feature flag management.","category":"development_tools"}
+{"input":"What is Node.js circuit breaker?","output":"Circuit breaker pattern prevents cascade failures in microservices by stopping calls to failing services.","category":"architecture"}
+{"input":"How to implement circuit breaker?","output":"Use opossum, hystrix, or custom implementation for circuit breaker pattern in Node.js.","category":"architecture"}
+{"input":"What is Node.js retry pattern?","output":"Retry pattern handles transient failures by automatically retrying failed operations with backoff.","category":"architecture"}
+{"input":"How to implement retry logic?","output":"Use exponential backoff, jitter, and circuit breaker for robust retry implementation.","category":"architecture"}
+{"input":"What is Node.js bulkhead pattern?","output":"Bulkhead pattern isolates failures by partitioning resources for different operations.","category":"architecture"}
+{"input":"How to implement bulkhead?","output":"Use separate thread pools, rate limiting, or resource isolation for bulkhead pattern.","category":"architecture"}
+{"input":"What is Node.js saga pattern?","output":"Saga pattern manages distributed transactions with compensating actions for microservices.","category":"architecture"}
+{"input":"How to implement saga pattern?","output":"Use event sourcing, command handlers, and compensation logic for saga implementation.","category":"architecture"}
+{"input":"What is Node.js event sourcing?","output":"Event sourcing stores all state changes as events for audit trails and state reconstruction.","category":"architecture"}
+{"input":"How to implement event sourcing?","output":"Use event stores, aggregates, and snapshotting for event sourcing implementation.","category":"architecture"}
+{"input":"What is Node.js CQRS?","output":"CQRS separates read and write operations for optimized data access and scalability.","category":"architecture"}
+{"input":"How to implement CQRS?","output":"Use separate models, databases, and event handling for CQRS pattern implementation.","category":"architecture"}
+{"input":"What is Node.js domain-driven design?","output":"DDD focuses on business domain modeling with bounded contexts and ubiquitous language.","category":"architecture"}
+{"input":"How to implement DDD in Node.js?","output":"Use entities, value objects, repositories, and domain services for DDD implementation.","category":"architecture"}
+{"input":"What is Node.js hexagonal architecture?","output":"Hexagonal architecture isolates application core from external concerns using ports and adapters.","category":"architecture"}
+{"input":"How to implement hexagonal architecture?","output":"Use dependency injection, interfaces, and adapters for hexagonal architecture.","category":"architecture"}
+{"input":"What is Node.js clean architecture?","output":"Clean architecture separates concerns into layers with dependency inversion for maintainability.","category":"architecture"}
+{"input":"How to implement clean architecture?","output":"Use entities, use cases, interfaces, and infrastructure layers for clean architecture.","category":"architecture"}
+{"input":"What is Node.js microkernel architecture?","output":"Microkernel architecture uses minimal core with plug-in components for extensibility.","category":"architecture"}
+{"input":"How to implement microkernel?","output":"Use plugin system, message bus, and component registry for microkernel architecture.","category":"architecture"}
+{"input":"What is Node.js space-based architecture?","output":"Space-based architecture uses shared memory for scalability and performance in distributed systems.","category":"architecture"}
+{"input":"How to implement space-based architecture?","output":"Use in-memory data grids, message passing, and replication for space-based architecture.","category":"architecture"}
+{"input":"What is Node.js serverless architecture?","output":"Serverless architecture uses cloud functions without server management for cost efficiency.","category":"architecture"}
+{"input":"How to implement serverless architecture?","output":"Use AWS Lambda, Azure Functions, or Google Cloud Functions for serverless implementation.","category":"architecture"}
+{"input":"What is Node.js JAMstack?","output":"JAMstack combines JavaScript, APIs, and Markup for modern web development with pre-built assets.","category":"architecture"}
+{"input":"How to implement JAMstack?","output":"Use static site generators, serverless functions, and CDNs for JAMstack implementation.","category":"architecture"}
+{"input":"What is Node.js headless CMS?","output":"Headless CMS provides content management without frontend for API-driven content delivery.","category":"architecture"}
+{"input":"How to integrate headless CMS?","output":"Use Contentful, Strapi, or custom CMS with GraphQL/REST APIs for content management.","category":"architecture"}
+{"input":"What is Node.js progressive web app?","output":"PWA provides app-like experience with offline support, push notifications, and installability.","category":"web_frameworks"}
+{"input":"How to create PWA with Node.js?","output":"Use service workers, web app manifest, and caching strategies for PWA implementation.","category":"web_frameworks"}
+{"input":"What is Node.js web assembly?","output":"WebAssembly enables high-performance code execution in Node.js for computationally intensive tasks.","category":"advanced_concepts"}
+{"input":"How to integrate WebAssembly?","output":"Use WASM modules with JavaScript for performance-critical operations in Node.js applications.","category":"advanced_concepts"}
+{"input":"What is Node.js edge computing?","output":"Edge computing processes data closer to users for reduced latency and improved performance.","category":"architecture"}
+{"input":"How to implement edge computing?","output":"Use Cloudflare Workers, Vercel Edge, or AWS Lambda@Edge for edge deployment.","category":"architecture"}
+{"input":"What is Node.js GraphQL federation?","output":"GraphQL federation combines multiple GraphQL services into unified API with gateway orchestration.","category":"web_frameworks"}
+{"input":"How to implement GraphQL federation?","output":"Use Apollo Gateway, subgraphs, and schema stitching for federated GraphQL architecture.","category":"web_frameworks"}
+{"input":"What is Node.js gRPC?","output":"gRPC provides high-performance RPC framework with Protocol Buffers for microservices communication.","category":"networking"}
+{"input":"How to implement gRPC in Node.js?","output":"Use @grpc/grpc-js with .proto files for type-safe RPC communication in Node.js.","category":"networking"}
+{"input":"What is Node.js message queue?","output":"Message queue enables asynchronous communication between services with reliability and scalability.","category":"architecture"}
+{"input":"How to implement message queue?","output":"Use RabbitMQ, Apache Kafka, or AWS SQS for message queue implementation in Node.js.","category":"architecture"}
+{"input":"What is Node.js event store?","output":"Event store provides append-only log of events for event sourcing and CQRS patterns.","category":"architecture"}
+{"input":"How to implement event store?","output":"Use EventStoreDB, Kafka, or custom event storage for event sourcing implementation.","category":"architecture"}
+{"input":"What is Node.js read model?","output":"Read model provides optimized data representation for queries in CQRS architecture.","category":"architecture"}
+{"input":"How to implement read model?","output":"Use materialized views, projections, and caching for efficient read model implementation.","category":"architecture"}
+{"input":"What is Node.js write model?","output":"Write model handles business logic and command processing in CQRS architecture.","category":"architecture"}
+{"input":"How to implement write model?","output":"Use command handlers, validation, and event generation for write model implementation.","category":"architecture"}
+{"input":"What is Node.js aggregate pattern?","output":"Aggregate pattern groups related entities and enforces business rules in DDD.","category":"architecture"}
+{"input":"How to implement aggregate pattern?","output":"Use aggregate roots, consistency boundaries, and domain events for aggregate implementation.","category":"architecture"}
+{"input":"What is Node.js bounded context?","output":"Bounded context defines explicit boundaries within which domain model is consistent.","category":"architecture"}
+{"input":"How to implement bounded context?","output":"Use separate modules, APIs, and databases for bounded context implementation.","category":"architecture"}
+{"input":"What is Node.js ubiquitous language?","output":"Ubiquitous language provides common terminology shared by developers and domain experts.","category":"architecture"}
+{"input":"How to establish ubiquitous language?","output":"Use domain modeling, glossary, and consistent naming for ubiquitous language.","category":"architecture"}
+{"input":"What is Node.js strategic design?","output":"Strategic design focuses on high-level architecture and relationships between bounded contexts.","category":"architecture"}
+{"input":"How to implement strategic design?","content":"Use context mapping, anti-corruption layers, and shared kernels for strategic design.","category":"architecture"}
+{"input":"What is Node.js tactical design?","output":"Tactical design focuses on implementation details within bounded contexts.","category":"architecture"}
+{"input":"How to implement tactical design?","output":"Use entities, value objects, services, and repositories for tactical design.","category":"architecture"}
+{"input":"What is Node.js context mapping?","output":"Context mapping defines relationships and integration patterns between bounded contexts.","category":"architecture"}
+{"input":"How to create context map?","output":"Use upstream/downstream relationships, customer/supplier, and conformist patterns for context mapping.","category":"architecture"}
+{"input":"What is Node.js anti-corruption layer?","output":"Anti-corruption layer prevents domain model contamination from external systems.","category":"architecture"}
+{"input":"How to implement anti-corruption layer?","output":"Use adapters, translators, and facades for anti-corruption layer implementation.","category":"architecture"}
+{"input":"What is Node.js shared kernel?","output":"Shared kernel allows limited sharing between bounded contexts with minimal coupling.","category":"architecture"}
+{"input":"How to implement shared kernel?","output":"Use shared models, events, and careful dependency management for shared kernel.","category":"architecture"}
+{"input":"What is Node.js separate ways?","output":"Separate ways pattern allows bounded contexts to evolve independently without integration.","category":"architecture"}
+{"input":"How to implement separate ways?","output":"Use independent deployments and data stores for separate ways pattern.","category":"architecture"}
+{"input":"What is Node.js open host service?","output":"Open host service provides public API for bounded context integration with clear contract.","category":"architecture"}
+{"input":"How to implement open host service?","output":"Use well-defined API, documentation, and versioning for open host service.","category":"architecture"}
+{"input":"What is Node.js published language?","output":"Published language provides standardized communication format between bounded contexts.","category":"architecture"}
+{"input":"How to implement published language?","output":"Use shared schemas, events, and API contracts for published language.","category":"architecture"}
+{"input":"What is Node.js partnership?","output":"Partnership defines collaborative relationship between bounded contexts with mutual dependencies.","category":"architecture"}
+{"input":"How to implement partnership?","output":"Use joint development, shared ownership, and coordination for partnership pattern.","category":"architecture"}
+{"input":"What is Node.js customer-supplier?","output":"Customer-supplier defines upstream/downstream relationship with clear service contracts.","category":"architecture"}
+{"input":"How to implement customer-supplier?","output":"Use service level agreements, testing, and communication for customer-supplier pattern.","category":"architecture"}
+{"input":"What is Node.js conformist?","output":"Conformist pattern adopts upstream model without translation for simplicity.","category":"architecture"}
+{"input":"How to implement conformist?","output":"Use direct adoption of upstream model and accept limitations for conformist pattern.","category":"architecture"}

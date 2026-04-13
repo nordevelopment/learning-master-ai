@@ -1,0 +1,12 @@
+{
+  "endpoint": "/api/ask",
+  "method": "POST",
+  "body": {
+    "question": "How to write file?"
+  },
+  "response": {
+    "answer": "Use fs.writeFile() or fs.promises.writeFile() for async operations.\n\n💡 **Tip**: This is a common pattern in Node.js development. Practice with small examples first!",
+    "confidence": 0.8,
+    "timestamp": "2026-04-13T19:49:32.322Z"
+  }
+}
