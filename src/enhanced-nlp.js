@@ -6,6 +6,14 @@ class EnhancedNLP {
     this.contextPatterns = this.createContextPatterns();
     this.intentPatterns = this.createIntentPatterns();
     this.entityExtractors = this.createEntityExtractors();
+    
+    // Naive Bayes Intent Stats
+    this.intentStats = {
+      intents: new Map(), // { intent: count }
+      wordCounts: new Map(), // { intent: { word: count } }
+      vocabulary: new Set(),
+      totalDocuments: 0
+    };
   }
 
   // Simple lemmatizer for word normalization
@@ -336,6 +344,7 @@ class EnhancedNLP {
     const entities = new Set();
     
     Object.entries(this.entityExtractors).forEach(([type, extractor]) => {
+      // 1. Regular Regex Matching
       extractor.patterns.forEach(pattern => {
         const matches = text.match(pattern);
         if (matches) {
@@ -344,13 +353,96 @@ class EnhancedNLP {
           });
         }
       });
+      
+      // 2. Fuzzy Matching for Tech terms (only if no matches found yet for specific words)
+      if (type === 'technologies') {
+        const words = text.toLowerCase().split(/\s+/).filter(w => w.length > 3);
+        const knownTech = ['node', 'express', 'fastify', 'mongodb', 'react', 'typescript', 'javascript', 'docker', 'redis', 'postgresql', 'mongoose', 'socket.io'];
+        
+        words.forEach(word => {
+          const fuzzyMatch = this.findFuzzyMatch(word, knownTech, 0.7); // 70% similarity threshold
+          if (fuzzyMatch) {
+            entities.add(fuzzyMatch);
+          }
+        });
+      }
     });
     
     return Array.from(entities);
   }
 
-  // Detect user intent
+  // Train Naive Bayes Intent Classifier
+  trainIntentClassifier(trainingData) {
+    console.log('Training Naive Bayes Intent Classifier...');
+    
+    trainingData.forEach(item => {
+      const intent = item.category || 'general';
+      const text = this.preprocessText(item.input);
+      const words = text.split(' ').filter(word => word.length > 2);
+      
+      // Update intent document count
+      this.intentStats.intents.set(intent, (this.intentStats.intents.get(intent) || 0) + 1);
+      this.intentStats.totalDocuments++;
+      
+      // Update word counts for this intent
+      if (!this.intentStats.wordCounts.has(intent)) {
+        this.intentStats.wordCounts.set(intent, new Map());
+      }
+      
+      const wordMap = this.intentStats.wordCounts.get(intent);
+      words.forEach(word => {
+        const lemma = this.lemmatize(word);
+        wordMap.set(lemma, (wordMap.get(lemma) || 0) + 1);
+        this.intentStats.vocabulary.add(lemma);
+      });
+    });
+    
+    console.log(`Classifier trained on ${this.intentStats.intents.size} intent categories`);
+  }
+
+  // Detect user intent using Naive Bayes
   detectIntent(text) {
+    if (this.intentStats.totalDocuments === 0) {
+      // Fallback to pattern matching if not trained yet
+      return this.detectIntentPatternBased(text);
+    }
+
+    const processedText = this.preprocessText(text);
+    const words = processedText.split(' ').filter(word => word.length > 2).map(w => this.lemmatize(w));
+    
+    const scores = [];
+    const vocabSize = this.intentStats.vocabulary.size;
+
+    for (const [intent, docCount] of this.intentStats.intents.entries()) {
+      // Start with log of P(Intent)
+      // log(P(C)) = log(Docs in topic / Total docs)
+      let score = Math.log(docCount / this.intentStats.totalDocuments);
+      
+      const wordMap = this.intentStats.wordCounts.get(intent);
+      const totalWordsInIntent = Array.from(wordMap.values()).reduce((a, b) => a + b, 0);
+      
+      // Add log(P(Word|Intent)) for each word
+      // log(P(w|C)) = log((Count(w, C) + 1) / (TotalWordsInC + VocabSize))
+      words.forEach(word => {
+        const count = wordMap.get(word) || 0;
+        score += Math.log((count + 1) / (totalWordsInIntent + vocabSize));
+      });
+      
+      scores.push({ intent, score });
+    }
+
+    // Sort by score (the higher the better, since they are logs of probabilities)
+    return scores
+      .sort((a, b) => b.score - a.score)
+      .map(s => ({
+        intent: s.intent,
+        confidence: Math.exp(s.score) // Convert back from log if needed, though relative score is enough
+      }))
+      .slice(0, 3);
+  }
+
+  // Old pattern-based logic as a safety fallback
+  detectIntentPatternBased(text) {
     const detectedIntents = [];
     const processedText = this.preprocessText(text);
     
@@ -455,6 +547,93 @@ class EnhancedNLP {
     ];
   }
 
+  // Calculate Levenshtein Distance for Fuzzy Matching
+  calculateLevenshtein(s1, s2) {
+    const m = s1.length;
+    const n = s2.length;
+    const d = Array.from({ length: m + 1 }, () => Array(n + 1).fill(0));
+
+    for (let i = 0; i <= m; i++) d[i][0] = i;
+    for (let j = 0; j <= n; j++) d[0][j] = j;
+
+    for (let j = 1; j <= n; j++) {
+      for (let i = 1; i <= m; i++) {
+        const cost = s1[i - 1] === s2[j - 1] ? 0 : 1;
+        d[i][j] = Math.min(
+          d[i - 1][j] + 1,      // deletion
+          d[i][j - 1] + 1,      // insertion
+          d[i - 1][j - 1] + cost // substitution
+        );
+      }
+    }
+    return d[m][n];
+  }
+
+  // Find closest match for a word (Fuzzy Search)
+  findFuzzyMatch(word, candidates, threshold = 0.3) {
+    if (word.length < 3) return null;
+    
+    let bestMatch = null;
+    let minDistance = Infinity;
+
+    for (const candidate of candidates) {
+      const distance = this.calculateLevenshtein(word, candidate);
+      const similarity = 1 - distance / Math.max(word.length, candidate.length);
+      
+      if (similarity > threshold && distance < minDistance) {
+        minDistance = distance;
+        bestMatch = { word: candidate, similarity };
+      }
+    }
+
+    return bestMatch && bestMatch.similarity > threshold ? bestMatch.word : null;
+  }
+
+  // Extract structured slots from text
+  extractSlots(text) {
+    const processed = this.preprocessText(text);
+    const slots = {};
+    
+    // Technology Slot
+    const techMatches = this.extractEntities(text).filter(e => 
+      ['node', 'express', 'fastify', 'mongodb', 'react', 'typescript', 'javascript', 'docker', 'redis', 'postgresql'].includes(e)
+    );
+    if (techMatches.length > 0) slots.technology = techMatches[0];
+
+    // Action Slot
+    const actions = {
+      'install': ['install', 'add', 'setup'],
+      'create': ['create', 'make', 'build', 'start'],
+      'fix': ['fix', 'solve', 'debug', 'error', 'broken'],
+      'deploy': ['deploy', 'publish', 'release', 'ship'],
+      'compare': ['vs', 'versus', 'compare', 'difference']
+    };
+
+    for (const [action, patterns] of Object.entries(actions)) {
+      if (patterns.some(p => processed.includes(p))) {
+        slots.action = action;
+        break;
+      }
+    }
+
+    // Topic Slot
+    const topics = {
+      'database': ['database', 'db', 'storage', 'query'],
+      'security': ['auth', 'security', 'secure', 'jwt', 'password'],
+      'performance': ['speed', 'performance', 'optimize', 'fast'],
+      'api': ['api', 'rest', 'graphql', 'endpoint', 'route']
+    };
+
+    for (const [topic, patterns] of Object.entries(topics)) {
+      if (patterns.some(p => processed.includes(p))) {
+        slots.topic = topic;
+        break;
+      }
+    }
+
+    return slots;
+  }
+
   // Enhanced text similarity calculation
   calculateSimilarity(text1, text2) {
     const keywords1 = new Set(this.extractKeywords(text1));
@@ -505,6 +684,7 @@ class EnhancedNLP {
       entities: this.extractEntities(text),
       intent: this.detectIntent(text),
       context: this.detectContext(text),
+      slots: this.extractSlots(text),
       processed: this.preprocessText(text)
     };
   }

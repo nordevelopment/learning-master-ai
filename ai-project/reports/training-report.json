@@ -1,27 +1,16 @@
 {
   "training_session": {
-    "timestamp": "2026-04-13T22:08:37.921Z",
-    "duration_ms": 21,
-    "samples_processed": 493,
-    "patterns_learned": 1254
+    "timestamp": "2026-04-14T06:52:00.479Z",
+    "duration_ms": 124,
+    "samples_processed": 503,
+    "patterns_learned": 1288
   },
   "model_info": {
-    "type": "NodeJS-Master-AI",
-    "version": "2.0.0",
-    "intelligence_level": "Enhanced with NLP",
-    "accuracy_estimate": "90-98%"
+    "type": "NodeJS-Master-AI-Hybrid",
+    "version": "3.0.0",
+    "intelligence_level": "Hybrid (TF-IDF + NLP + Manual Weights)",
+    "accuracy_estimate": "95%+"
   },
-  "capabilities": [
-    "Node.js fundamentals",
-    "Web frameworks (Express, Fastify, NestJS)",
-    "HTTP clients (axios, fetch)",
-    "JavaScript concepts (ES6+, TypeScript)",
-    "Database integration",
-    "Testing strategies",
-    "Security patterns",
-    "Performance optimization",
-    "Deployment solutions"
-  ],
   "nlp_features": [
     "Lemmatization",
     "Synonym expansion",
@@ -31,8 +20,8 @@
   ],
   "performance_metrics": {
     "response_time_ms": "<1ms",
-    "memory_usage_kb": 5843,
-    "model_size_chars": 5983711,
-    "data_hash": "a1bec049f020e29f9dd1e7290200c9bb"
+    "memory_usage_kb": 436,
+    "model_size_chars": 446304,
+    "data_hash": "c52174a8c3ee38088a5b7a16c50f784a"
   }
 }

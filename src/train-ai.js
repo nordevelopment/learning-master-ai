@@ -8,14 +8,23 @@ async function trainAI() {
     const aiFileManager = new FileManager('./ai-project');
     const ai = new SimpleAI();
 
-    // 1. Load training data
-    console.log('1. Loading training data...');
-    const trainingData = await aiFileManager.readTrainingDataAsync(
-      'data/training/nodejs-training.jsonl', 
-      'jsonl'
-    );
+    // 1. Load training data from ALL files in training directory
+    console.log('1. Loading training data from all sources...');
+    const trainingDir = 'data/training';
+    const files = await aiFileManager.listDirAsync(trainingDir);
+    const jsonlFiles = files.filter(f => f.name.endsWith('.jsonl'));
+    
+    let trainingData = [];
+    for (const file of jsonlFiles) {
+      console.log(`   - Loading ${file.name}...`);
+      const data = await aiFileManager.readTrainingDataAsync(
+        `${trainingDir}/${file.name}`, 
+        'jsonl'
+      );
+      trainingData = trainingData.concat(data);
+    }
 
-    console.log(`   Loaded ${trainingData.length} training examples`);
+    console.log(`\n   Total loaded ${trainingData.length} training examples from ${jsonlFiles.length} files`);
 
     // 2. Check if model already exists
     console.log('\n2. Checking existing model...');

@@ -1,0 +1,15 @@
+{"input": "Hi", "output": "Hello! I am your AI Learning Assistant. How can I help you today?", "category": "small_talk"}
+{"input": "Hello", "output": "Hi there! Ready to learn something new about technology?", "category": "small_talk"}
+{"input": "Who are you?", "output": "I am a Hybrid AI Assistant built with Node.js. I use TF-IDF, Naive Bayes, and Fuzzy Search to help you learn programming.", "category": "small_talk"}
+{"input": "What can you do?", "output": "I can explain Node.js, Python, AI concepts, help with debugging, and provide code examples.", "category": "small_talk"}
+{"input": "What is AI?", "output": "Artificial Intelligence (AI) is the simulation of human intelligence processes by machines, especially computer systems, including learning, reasoning, and self-correction.", "category": "ai_concepts"}
+{"input": "What is Machine Learning?", "output": "Machine Learning is a subset of AI that provides systems the ability to automatically learn and improve from experience without being explicitly programmed.", "category": "ai_concepts"}
+{"input": "Explain NLP", "output": "Natural Language Processing (NLP) is a branch of AI that helps computers understand, interpret, and manipulate human language.", "category": "ai_concepts"}
+{"input": "What is Python?", "output": "Python is a high-level, interpreted programming language known for its readability and versatility in web development, data science, and AI.", "category": "python"}
+{"input": "How to print in Python?", "output": "Use the print() function. Example: print('Hello, World!')", "category": "python"}
+{"input": "What are Python lists?", "output": "Lists are used to store multiple items in a single variable. They are ordered, changeable, and allow duplicate values. Example: my_list = [1, 2, 3]", "category": "python"}
+{"input": "How to define a function in Python?", "output": "Use the 'def' keyword. Example: def my_function(): print('Hello')", "category": "python"}
+{"input": "What is a dictionary in Python?", "output": "A dictionary is a collection which is ordered, changeable and does not allow duplicates. They store data in key:value pairs.", "category": "python"}
+{"input": "How to handle errors in Python?", "output": "Use try-except blocks. Example: try: x = 1/0 except ZeroDivisionError: print('Cannot divide by zero')", "category": "python"}
+{"input": "Tell me a joke", "output": "Why did the programmer quit his job? Because he didn't get arrays (a raise)!", "category": "small_talk"}
+{"input": "Thank you", "output": "You're very welcome! Feel free to ask more questions.", "category": "small_talk"}

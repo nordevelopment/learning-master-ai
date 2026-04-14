@@ -7,10 +7,10 @@
   "type": "commonjs",
   "main": "ai-core.js",
   "scripts": {
-    "train": "node train-ai.js",
-    "test": "node test-ai-enhanced.js",
-    "chat": "node chat-server-fastify.js",
-    "demo": "node simple-ai-training.js"
+    "train": "node src/train-ai.js",
+    "test": "node src/test-ai-enhanced.js",
+    "chat": "node src/chat-server-fastify.js",
+    "demo": "node src/simple-ai-training.js"
   },
   "dependencies": {
     "@fastify/static": "^6.12.0",
