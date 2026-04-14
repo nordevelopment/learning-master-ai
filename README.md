@@ -1,4 +1,4 @@
-# Learning Master AI 🧠💻
+# Learning Master AI - Educational Sandbox
 
 ![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white)
 ![AI Architecture](https://img.shields.io/badge/Architecture-Hybrid_AI-blue?style=for-the-badge)
