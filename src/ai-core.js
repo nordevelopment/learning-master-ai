@@ -150,7 +150,7 @@ class SimpleAI {
   // Enhanced response generation with Hybrid TF-IDF + Cosine Similarity
   respond(question) {
     if (!this.trained) {
-      return "I'm not trained yet! Please run 'npm run train' first.";
+      return { answer: "I'm not trained yet! Please run 'npm run train' first.", thinking: {} };
     }
 
     const processed = this.nlp.processText(question);
@@ -161,11 +161,10 @@ class SimpleAI {
     this.updateContext(currentSlots);
     
     // 2. Query Enrichment
-    // If the question is short or missing key info, add active slots to keywords
-    if (keywords.length < 10) { // arbitrary "short question" threshold
+    if (keywords.length < 10) {
       if (this.activeSlots.technology && !currentSlots.technology) {
         keywords.push(this.activeSlots.technology);
-        keywords.push(this.activeSlots.technology); // Double weight for context
+        keywords.push(this.activeSlots.technology);
       }
       if (this.activeSlots.topic && !currentSlots.topic) {
         keywords.push(this.activeSlots.topic);
@@ -174,7 +173,7 @@ class SimpleAI {
 
     this.addToHistory(question, processed);
     
-    // 3. Calculate TF-IDF Vector for the (possibly enriched) Question
+    // 3. Calculate TF-IDF Vector for the Question
     const qTfMap = new Map();
     keywords.forEach(word => {
       qTfMap.set(word, (qTfMap.get(word) || 0) + 1);
@@ -187,7 +186,7 @@ class SimpleAI {
       questionVector.set(word, (tf / keywords.length) * idf * manualBonus);
     }
 
-    // 4. Find Candidates (responses that share keywords)
+    // 4. Find Candidates
     const candidates = new Set();
     keywords.forEach(keyword => {
       if (this.responses.has(keyword)) {
@@ -196,29 +195,38 @@ class SimpleAI {
     });
 
     if (candidates.size === 0) {
-      return this.generateFallbackResponse(processed);
+      const fallback = this.generateFallbackResponse(processed);
+      return { 
+        answer: fallback, 
+        thinking: { keywords, intent: processed.intent, confidence: 0, candidates: [], slots: currentSlots } 
+      };
     }
 
-    // 5. Rank Candidates with Cosine Similarity + Context Bonus
+    // 5. Rank Candidates
     let bestResponse = null;
     let maxSimilarity = -1;
+    const scoredCandidates = [];
 
     for (const candidate of candidates) {
       let similarity = this.calculateCosineSimilarity(questionVector, candidate.vector);
       
-      // Context/Slot matching bonus
       if (this.activeSlots.technology && candidate.input.toLowerCase().includes(this.activeSlots.technology)) {
         similarity += 0.15;
       }
       
-      // Intent matching bonus (Hybrid layer)
       let finalScore = similarity;
       if (processed.intent.length > 0 && candidate.intent.length > 0) {
         const hasIntentMatch = processed.intent.some(qInt => 
           candidate.intent.some(cInt => qInt.intent === cInt.intent)
         );
-        if (hasIntentMatch) finalScore += 0.2; // 20% boost for intent match
+        if (hasIntentMatch) finalScore += 0.2;
       }
+
+      scoredCandidates.push({
+        input: candidate.input,
+        similarity: finalScore,
+        output: candidate.output
+      });
 
       if (finalScore > maxSimilarity) {
         maxSimilarity = finalScore;
@@ -228,7 +236,11 @@ class SimpleAI {
     
     // Confidence threshold
     if (maxSimilarity < 0.1) {
-      return this.generateFallbackResponse(processed);
+      const fallback = this.generateFallbackResponse(processed);
+      return { 
+        answer: fallback, 
+        thinking: { keywords, intent: processed.intent, confidence: maxSimilarity, candidates: scoredCandidates.sort((a,b) => b.similarity - a.similarity).slice(0, 3), slots: currentSlots } 
+      };
     }
 
     // Context Decay
@@ -237,12 +249,49 @@ class SimpleAI {
       this.clearOldContext();
     }
     
-    // contextual enhancement
+    let finalAnswer = bestResponse.output;
     if (maxSimilarity > 0.4) {
-      return this.enhanceResponse(bestResponse.output, processed);
+      finalAnswer = this.enhanceResponse(bestResponse.output, processed);
     }
     
-    return bestResponse.output;
+    return {
+      answer: finalAnswer,
+      thinking: {
+        keywords: keywords,
+        intent: processed.intent.slice(0, 3),
+        confidence: maxSimilarity,
+        candidates: scoredCandidates.sort((a,b) => b.similarity - a.similarity).slice(0, 3),
+        slots: currentSlots
+      }
+    };
+  }
+
+  // Get data for Knowledge Map visualization
+  getKnowledgeMap() {
+    const categories = {};
+    const techDensity = {};
+    
+    this.trainingVectors.forEach(v => {
+      // Category stats
+      categories[v.category] = (categories[v.category] || 0) + 1;
+      
+      // Technology density
+      if (v.entities) {
+        v.entities.forEach(entity => {
+          techDensity[entity] = (techDensity[entity] || 0) + 1;
+        });
+      }
+    });
+    
+    return {
+      categories: Object.entries(categories).map(([name, count]) => ({ name, count })),
+      technologies: Object.entries(techDensity)
+        .map(([name, count]) => ({ name, count }))
+        .sort((a,b) => b.count - a.count)
+        .slice(0, 15),
+      totalPatterns: this.responses.size,
+      totalDocuments: this.totalDocuments
+    };
   }
 
   // Manage Context Memory

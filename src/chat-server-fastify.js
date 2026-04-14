@@ -50,11 +50,12 @@ app.post('/api/ask', async (request, reply) => {
       return reply.status(400).send({ error: 'Question is required' });
     }
     
-    const answer = ai.respond(question);
+    const result = ai.respond(question);
     
     return {
       question,
-      answer,
+      answer: result.answer,
+      thinking: result.thinking,
       timestamp: new Date().toISOString(),
       ai: {
         trained: ai.trained,
@@ -88,24 +89,26 @@ app.delete('/api/history', async (request, reply) => {
 
 // Get AI capabilities
 app.get('/api/capabilities', async (request, reply) => {
-  return {
-    trained: ai.trained,
-    patterns: ai.responses.size,
-    nlp_enabled: !!ai.nlp,
-    conversation_history: ai.conversationHistory.length,
-    max_history_length: ai.maxHistoryLength,
-    supported_topics: [
-      'Node.js fundamentals',
-      'Web frameworks (Express, Fastify, NestJS)',
-      'HTTP clients (axios, fetch)',
-      'JavaScript concepts (ES6+, TypeScript)',
-      'Database integration',
-      'Testing strategies',
-      'Security patterns',
-      'Performance optimization',
-      'Deployment solutions'
-    ]
-  };
+    const knowledgeMap = ai.getKnowledgeMap();
+    return {
+      trained: ai.trained,
+      patterns: ai.responses.size,
+      nlp_enabled: !!ai.nlp,
+      conversation_history: ai.conversationHistory.length,
+      max_history_length: ai.maxHistoryLength,
+      knowledgeMap: knowledgeMap,
+      supported_topics: [
+        'Node.js fundamentals',
+        'Web frameworks (Express, Fastify, NestJS)',
+        'HTTP clients (axios, fetch)',
+        'JavaScript concepts (ES6+, TypeScript)',
+        'Database integration',
+        'Testing strategies',
+        'Security patterns',
+        'Performance optimization',
+        'Deployment solutions'
+      ]
+    };
 });
 
 // Start server
