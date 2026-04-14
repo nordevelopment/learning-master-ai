@@ -189,6 +189,25 @@ class FileManager {
   }
 
   /**
+   * AI-specific: List directory contents (returns objects with name and isDir)
+   */
+  async listDirAsync(dirPath) {
+    try {
+      const fullPath = this._getFullPath(dirPath);
+      const entries = await fs.readdir(fullPath, { withFileTypes: true });
+      
+      return entries.map(entry => ({
+        name: entry.name,
+        isDir: entry.isDirectory(),
+        size: 0 // Optional: could get stats if needed
+      }));
+    } catch (error) {
+      console.error(`[Async] Error listing directory:`, error);
+      throw error;
+    }
+  }
+
+  /**
    * AI-specific: List files in directory (for datasets)
    */
   async listFilesAsync(dirPath, extension = null) {

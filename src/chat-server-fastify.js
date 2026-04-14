@@ -9,7 +9,7 @@ const app = fastify({
 
 // Serve static files
 app.register(require('@fastify/static'), {
-  root: path.join(__dirname, 'public'),
+  root: path.join(__dirname, '..', 'public'),
   prefix: '/'
 });
 
