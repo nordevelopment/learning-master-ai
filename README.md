@@ -1,11 +1,16 @@
-# Learning Master AI: Educational Sandbox
+# Learning AI Sandbox Educational Framework
 
 ![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white)
 ![AI Architecture](https://img.shields.io/badge/Architecture-Hybrid_AI-blue?style=for-the-badge)
 ![Education](https://img.shields.io/badge/Education-Interactive_Learning-green?style=for-the-badge)
 
-> **Universal Educational Framework for AI Fundamentals and Technology **  
-> Learn how modern AI systems work from the inside. This project demonstrates core Natural Language Processing (NLP) concepts through a practical, fully transparent implementation—no black boxes, no external LLM dependencies.
+
+> Fundamentals and AI Technology to Learn how modern AI systems work from the inside. 
+This project demonstrates core Natural Language Processing (NLP) concepts through a practical, fully transparent implementation—no black boxes, no external LLM dependencies
+
+
+**Built with Node.js and Passion for AI Education**  
+*Educational AI for the modern developer*
 
 ## 🚀 Why this project?
 
@@ -21,16 +26,6 @@ The current version implements a **Hybrid AI Intelligence** system:
 4.  **Fuzzy Search (Levenshtein Distance)**: Robust handling of typos. If you type `Exprees` or `Mongodb`, the AI understands your intent through mathematical string similarity.
 5.  **Multi-Domain Training**: Easily expandable. Just drop a `.jsonl` file into the training folder, and the AI will learn new topics (Python, AI concepts, etc.) automatically.
 
-## 🛠 Project Architecture
-
-```
-src/
-|--- ai-core.js            # The "Brain": Hybrid ranking & Similarity engine
-|--- enhanced-nlp.js       # The "Senses": Naive Bayes, Lemmatization, Fuzzy matching
-|--- train-ai.js           # The "Teacher": Multi-file training & report generation
-|--- FileManager.js        # The "Librarian": Async I/O utilities
-|--- chat-server-fastify.js # The "Interface": REST API & Web Server
-```
 
 ## 📊 Performance & Accuracy
 
@@ -65,54 +60,18 @@ To train your own AI assistant on any topic:
 
 ---
 
-**Built with Node.js and Passion for AI Education**  
-*Educational AI for the modern developer*
-## 🏗️ Project Structure
-
-```
-nodejs-master-ai/
-|---src/
-|---- ai-core.js                 # Core AI class with NLP processing
-|---- train-ai.js               # Training script with smart caching
-|---- test-ai-enhanced.js        # Comprehensive testing suite
-|---- chat-server-fastify.js    # Fastify web server with API
-|---- enhanced-nlp.js            # Advanced NLP processing module
-|---- FileManager.js             # File operations utilities
-|
-|--- ai-project/                # AI data and models storage
-|   |--- data/
-|   |   |--- training/  
-|   |   |    put here your training data files - #training data files
-|   |--- models/
-|   |   |   |--- simple-ai-model.json        # Trained AI model
-|   |--- configs/
-|   |   |   |--- model-config.json           # Model configuration
-|   |--- reports/
-|   |   |   |--- training-report.json        # Performance metrics
-|   |--- api/                     # API examples and documentation
-|   |--- backups/                 # Model backups
-|
-|--- public/
-|   |--- index.html               # Modern chat interface
-|
-|--- package.json                # Project configuration
-|--- README.md                   # This file
-```
-
 ## AI Architecture
 
 ### Enhanced NLP System
 The AI uses sophisticated Natural Language Processing:
 
-```javascript
-// Processing pipeline
+### Processing pipeline
 1. Lemmatization - Word normalization
 2. Synonym Expansion - 200+ synonym mappings  
 3. Entity Extraction - Technology identification
 4. Intent Detection - Goal understanding
 5. Context Analysis - Conversation history
 6. Response Scoring - Intelligent selection
-```
 
 ### Response Algorithm
 1. Extract keywords from user question with NLP processing
@@ -177,27 +136,8 @@ npm run chat
 ```
 
 ### 🔧 **Configuration**
-
 Customize AI behavior in `ai-project/configs/model-config.json`:
 
-```json
-{
-  "name": "Your Custom AI",
-  "version": "1.0.0",
-  "type": "domain-specific-assistant",
-  "parameters": {
-    "max_tokens": 2048,
-    "temperature": 0.2,
-    "top_p": 0.9,
-    "frequency_penalty": 0.1
-  },
-  "capabilities": [
-    "Your domain topics",
-    "Specific technologies",
-    "Custom categories"
-  ]
-}
-```
 
 ## API Endpoints
 
@@ -324,7 +264,7 @@ echo '{"input": "How to calculate ROI?", "output": "ROI calculation involves div
 ### 🚀 **Contribution Workflow**
 
 #### **For Custom Training Data**:
-1. **Fork**: `git clone https://github.com/yourusername/learning-master-ai.git`
+1. **Fork**: `git clone https://github.com/nordevelopment/learning-master-ai`
 2. **Create Domain**: `mkdir ai-project/data/training/your-domain`
 3. **Add Examples**: Create JSONL file with Q&A pairs
 4. **Test Training**: `npm run train` and `npm run test`
@@ -337,27 +277,6 @@ echo '{"input": "How to calculate ROI?", "output": "ROI calculation involves div
 4. **Test**: Ensure all tests pass
 5. **PR**: Submit with detailed description
 
-### 📋 **Pull Request Template**
-
-```markdown
-## Description
-Brief description of changes and purpose.
-
-## Type of Contribution
-- [ ] Custom Training Data (specify domain)
-- [ ] Core System Enhancement
-- [ ] UI/UX Improvement  
-- [ ] Performance Optimization
-- [ ] Documentation
-- [ ] Bug Fix
-
-## Domain/Technology
-- [ ] Node.js/JavaScript
-- [ ] Python/Django
-- [ ] React/Vue
-- [ ] Data Science
-- [ ] Business/Finance
-- [ ] Other: ___________
 
 ## Training Data Examples
 If adding training data, provide 3-5 examples:
@@ -437,27 +356,6 @@ This project demonstrates:
 - **Performance Optimization**: Efficient algorithms and data structures
 
 Created as an educational journey into AI and Node.js development, showcasing how modern web technologies can be combined to create intelligent systems.
-
-## Roadmap
-
-### Completed Features
-- [x] Core AI training system with NLP
-- [x] Enhanced keyword extraction with weighting
-- [x] Advanced NLP processing (lemmatization, synonyms, entities)
-- [x] Context memory and conversation history
-- [x] Modern web chat interface with Fastify
-- [x] RESTful API endpoints
-- [x] Comprehensive testing suite
-- [x] Performance metrics and reporting
-- [x] Personal interaction capabilities
-- [x] Smart training with caching
-
-### Future Enhancements
-- [ ] **Enhanced Web UI** - Improved chat interface with better markdown rendering and syntax highlighting
-- [ ] **API Improvements** - Better error handling and response validation
-- [ ] API Documentation - Comprehensive OpenAPI/Swagger documentation
-- [ ] Integration APIs - Webhook support for external tool integration
-- [ ] **Data Management** - Easy training data backup and restoration
 
 ---
 

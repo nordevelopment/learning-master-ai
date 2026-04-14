@@ -636,29 +636,34 @@ class EnhancedNLP {
 
   // Enhanced text similarity calculation
   calculateSimilarity(text1, text2) {
-    const keywords1 = new Set(this.extractKeywords(text1));
-    const keywords2 = new Set(this.extractKeywords(text2));
-    
-    const intersection = new Set([...keywords1].filter(x => keywords2.has(x)));
-    const union = new Set([...keywords1, ...keywords2]);
-    
-    // Jaccard similarity
-    const jaccardSimilarity = intersection.size / union.size;
-    
-    // Bonus for entity matches
-    const entities1 = new Set(this.extractEntities(text1));
-    const entities2 = new Set(this.extractEntities(text2));
-    const entityIntersection = new Set([...entities1].filter(x => entities2.has(x)));
-    const entityBonus = entityIntersection.size * 0.1;
-    
-    // Bonus for intent matches
-    const intent1 = this.detectIntent(text1);
-    const intent2 = this.detectIntent(text2);
-    const intentBonus = intent1.some(i1 => 
-      intent2.some(i2 => i1.intent === i2.intent)
-    ) ? 0.2 : 0;
-    
-    return Math.min(1, jaccardSimilarity + entityBonus + intentBonus);
+    try {
+      const keywords1 = new Set(this.extractKeywords(text1));
+      const keywords2 = new Set(this.extractKeywords(text2));
+      
+      const intersection = new Set([...keywords1].filter(x => keywords2.has(x)));
+      const union = new Set([...keywords1, ...keywords2]);
+      
+      // Jaccard similarity
+      const jaccardSimilarity = union.size > 0 ? intersection.size / union.size : 0;
+      
+      // Bonus for entity matches
+      const entities1 = new Set(this.extractEntities(text1));
+      const entities2 = new Set(this.extractEntities(text2));
+      const entityIntersection = new Set([...entities1].filter(x => entities2.has(x)));
+      const entityBonus = entityIntersection.size * 0.1;
+      
+      // Bonus for intent matches
+      const intent1 = this.detectIntent(text1);
+      const intent2 = this.detectIntent(text2);
+      const intentBonus = intent1.some(i1 => 
+        intent2.some(i2 => i1.intent === i2.intent)
+      ) ? 0.2 : 0;
+      
+      return Math.min(1, jaccardSimilarity + entityBonus + intentBonus);
+    } catch (error) {
+      console.warn('Error in calculateSimilarity:', error.message);
+      return 0;
+    }
   }
 
   // Generate response suggestions based on context

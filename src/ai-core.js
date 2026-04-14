@@ -59,7 +59,7 @@ class SimpleAI {
       // Calculate Term Frequency (TF)
       const tfMap = new Map();
       keywords.forEach(word => {
-        tfMap.set(word, (tfMap.set(word) || 0) + 1);
+        tfMap.set(word, (tfMap.get(word) || 0) + 1);
       });
 
       // Create TF-IDF Vector
@@ -149,121 +149,156 @@ class SimpleAI {
 
   // Enhanced response generation with Hybrid TF-IDF + Cosine Similarity
   respond(question) {
-    if (!this.trained) {
-      return { answer: "I'm not trained yet! Please run 'npm run train' first.", thinking: {} };
-    }
-
-    const processed = this.nlp.processText(question);
-    const keywords = [...processed.keywords];
-    const currentSlots = processed.slots;
-    
-    // 1. Update Context Memory (Slot Filling)
-    this.updateContext(currentSlots);
-    
-    // 2. Query Enrichment
-    if (keywords.length < 10) {
-      if (this.activeSlots.technology && !currentSlots.technology) {
-        keywords.push(this.activeSlots.technology);
-        keywords.push(this.activeSlots.technology);
+    try {
+      // Validate input
+      if (!question || typeof question !== 'string') {
+        return { 
+          answer: "Please provide a valid question.", 
+          thinking: { error: 'invalid_input' } 
+        };
       }
-      if (this.activeSlots.topic && !currentSlots.topic) {
-        keywords.push(this.activeSlots.topic);
+
+      if (!this.trained) {
+        return { answer: "I'm not trained yet! Please run 'npm run train' first.", thinking: {} };
       }
-    }
 
-    this.addToHistory(question, processed);
-    
-    // 3. Calculate TF-IDF Vector for the Question
-    const qTfMap = new Map();
-    keywords.forEach(word => {
-      qTfMap.set(word, (qTfMap.get(word) || 0) + 1);
-    });
-
-    const questionVector = new Map();
-    for (const [word, tf] of qTfMap.entries()) {
-      const idf = this.idfMap.get(word) || 0;
-      const manualBonus = this.getManualWeight(word);
-      questionVector.set(word, (tf / keywords.length) * idf * manualBonus);
-    }
-
-    // 4. Find Candidates
-    const candidates = new Set();
-    keywords.forEach(keyword => {
-      if (this.responses.has(keyword)) {
-        this.responses.get(keyword).forEach(res => candidates.add(res));
+      // Process question with error handling
+      let processed;
+      try {
+        processed = this.nlp.processText(question);
+      } catch (nlpError) {
+        console.warn('NLP processing error:', nlpError.message);
+        processed = {
+          keywords: question.toLowerCase().split(' ').filter(w => w.length > 2),
+          intent: [],
+          context: [],
+          slots: {},
+          entities: []
+        };
       }
-    });
 
-    if (candidates.size === 0) {
-      const fallback = this.generateFallbackResponse(processed);
-      return { 
-        answer: fallback, 
-        thinking: { keywords, intent: processed.intent, confidence: 0, candidates: [], slots: currentSlots } 
-      };
-    }
-
-    // 5. Rank Candidates
-    let bestResponse = null;
-    let maxSimilarity = -1;
-    const scoredCandidates = [];
-
-    for (const candidate of candidates) {
-      let similarity = this.calculateCosineSimilarity(questionVector, candidate.vector);
+      const keywords = [...(processed.keywords || [])];
+      const currentSlots = processed.slots || {};
       
-      if (this.activeSlots.technology && candidate.input.toLowerCase().includes(this.activeSlots.technology)) {
-        similarity += 0.15;
-      }
+      // 1. Update Context Memory (Slot Filling)
+      this.updateContext(currentSlots);
       
-      let finalScore = similarity;
-      if (processed.intent.length > 0 && candidate.intent.length > 0) {
-        const hasIntentMatch = processed.intent.some(qInt => 
-          candidate.intent.some(cInt => qInt.intent === cInt.intent)
-        );
-        if (hasIntentMatch) finalScore += 0.2;
+      // 2. Query Enrichment
+      if (keywords.length < 10) {
+        if (this.activeSlots.technology && !currentSlots.technology) {
+          keywords.push(this.activeSlots.technology);
+          keywords.push(this.activeSlots.technology);
+        }
+        if (this.activeSlots.topic && !currentSlots.topic) {
+          keywords.push(this.activeSlots.topic);
+        }
       }
 
-      scoredCandidates.push({
-        input: candidate.input,
-        similarity: finalScore,
-        output: candidate.output
+      this.addToHistory(question, processed);
+      
+      // 3. Calculate TF-IDF Vector for the Question
+      const qTfMap = new Map();
+      keywords.forEach(word => {
+        qTfMap.set(word, (qTfMap.get(word) || 0) + 1);
       });
 
-      if (finalScore > maxSimilarity) {
-        maxSimilarity = finalScore;
-        bestResponse = candidate;
+      // Handle edge case: no keywords
+      if (qTfMap.size === 0) {
+        return this.generateFallbackResponse(processed);
       }
-    }
-    
-    // Confidence threshold
-    if (maxSimilarity < 0.1) {
-      const fallback = this.generateFallbackResponse(processed);
-      return { 
-        answer: fallback, 
-        thinking: { keywords, intent: processed.intent, confidence: maxSimilarity, candidates: scoredCandidates.sort((a,b) => b.similarity - a.similarity).slice(0, 3), slots: currentSlots } 
+
+      const questionVector = new Map();
+      for (const [word, tf] of qTfMap.entries()) {
+        const idf = this.idfMap.get(word) || 0;
+        const manualBonus = this.getManualWeight(word);
+        questionVector.set(word, (tf / keywords.length) * idf * manualBonus);
+      }
+
+      // 4. Find Candidates
+      const candidates = new Set();
+      keywords.forEach(keyword => {
+        if (this.responses.has(keyword)) {
+          this.responses.get(keyword).forEach(res => candidates.add(res));
+        }
+      });
+
+      if (candidates.size === 0) {
+        const fallback = this.generateFallbackResponse(processed);
+        return { 
+          answer: fallback, 
+          thinking: { keywords, intent: processed.intent, confidence: 0, candidates: [], slots: currentSlots } 
+        };
+      }
+
+      // 5. Rank Candidates
+      let bestResponse = null;
+      let maxSimilarity = -1;
+      const scoredCandidates = [];
+
+      for (const candidate of candidates) {
+        let similarity = this.calculateCosineSimilarity(questionVector, candidate.vector);
+        
+        if (this.activeSlots.technology && candidate.input.toLowerCase().includes(this.activeSlots.technology)) {
+          similarity += 0.15;
+        }
+        
+        let finalScore = similarity;
+        if (processed.intent && processed.intent.length > 0 && candidate.intent && candidate.intent.length > 0) {
+          const hasIntentMatch = processed.intent.some(qInt => 
+            candidate.intent.some(cInt => qInt.intent === cInt.intent)
+          );
+          if (hasIntentMatch) finalScore += 0.2;
+        }
+
+        scoredCandidates.push({
+          input: candidate.input,
+          similarity: finalScore,
+          output: candidate.output
+        });
+
+        if (finalScore > maxSimilarity) {
+          maxSimilarity = finalScore;
+          bestResponse = candidate;
+        }
+      }
+      
+      // Confidence threshold
+      if (maxSimilarity < 0.1 || !bestResponse) {
+        const fallback = this.generateFallbackResponse(processed);
+        return { 
+          answer: fallback, 
+          thinking: { keywords, intent: processed.intent, confidence: maxSimilarity, candidates: scoredCandidates.sort((a,b) => b.similarity - a.similarity).slice(0, 3), slots: currentSlots } 
+        };
+      }
+
+      // Context Decay
+      this.lastContextUpdate++;
+      if (this.lastContextUpdate > this.maxContextAge) {
+        this.clearOldContext();
+      }
+      
+      let finalAnswer = bestResponse.output;
+      if (maxSimilarity > 0.4) {
+        finalAnswer = this.enhanceResponse(bestResponse.output, processed);
+      }
+      
+      return {
+        answer: finalAnswer,
+        thinking: {
+          keywords: keywords,
+          intent: (processed.intent || []).slice(0, 3),
+          confidence: maxSimilarity,
+          candidates: scoredCandidates.sort((a,b) => b.similarity - a.similarity).slice(0, 3),
+          slots: currentSlots
+        }
+      };
+    } catch (error) {
+      console.error('Error in respond():', error.message);
+      return {
+        answer: "I encountered an error processing your question. Please try rephrasing it.",
+        thinking: { error: 'processing_error', message: error.message }
       };
     }
-
-    // Context Decay
-    this.lastContextUpdate++;
-    if (this.lastContextUpdate > this.maxContextAge) {
-      this.clearOldContext();
-    }
-    
-    let finalAnswer = bestResponse.output;
-    if (maxSimilarity > 0.4) {
-      finalAnswer = this.enhanceResponse(bestResponse.output, processed);
-    }
-    
-    return {
-      answer: finalAnswer,
-      thinking: {
-        keywords: keywords,
-        intent: processed.intent.slice(0, 3),
-        confidence: maxSimilarity,
-        candidates: scoredCandidates.sort((a,b) => b.similarity - a.similarity).slice(0, 3),
-        slots: currentSlots
-      }
-    };
   }
 
   // Get data for Knowledge Map visualization
@@ -386,30 +421,37 @@ class SimpleAI {
   
   // Generate intelligent fallback response
   generateFallbackResponse(processed) {
-    const { intent, context, entities } = processed;
+    // Safe destructuring with fallbacks
+    const intent = processed?.intent || [];
+    const context = processed?.context || [];
+    const entities = processed?.entities || [];
     
-    // Check for specific contexts
-    if (context.some(c => c.context === 'greeting')) {
-      return "Hello! I'm NodeJS-Master-AI. I can help you with Node.js, JavaScript, web development, and programming concepts. What would you like to learn about?";
-    }
-    
-    if (context.some(c => c.context === 'help_request')) {
-      return "I'm here to help! You can ask me about:\n\n- Node.js fundamentals (file system, streams, events)\n- Web frameworks (Express, Fastify, NestJS)\n- JavaScript concepts (ES6+, TypeScript, async/await)\n- Database integration (MongoDB, PostgreSQL, Redis)\n- Testing and security best practices\n- Performance optimization and deployment\n\nWhat specific topic interests you?";
-    }
-    
-    if (entities.length > 0) {
-      return `I see you're asking about ${entities.join(', ')}. While I don't have specific information about that, I can help you with related Node.js concepts. Could you rephrase your question?`;
-    }
-    
-    if (intent.length > 0) {
-      const topIntent = intent[0];
+    try {
+      // Check for specific contexts
+      if (context.some && context.some(c => c.context === 'greeting')) {
+        return "Hello! I'm NodeJS-Master-AI. I can help you with Node.js, JavaScript, web development, and programming concepts. What would you like to learn about?";
+      }
       
-      if (topIntent.intent === 'learn_concept') {
-        return "I'd be happy to explain that concept! However, I need more specific information. Could you tell me which technology or topic you'd like to learn about?";
+      if (context.some && context.some(c => c.context === 'help_request')) {
+        return "I'm here to help! You can ask me about:\n\n- Node.js fundamentals (file system, streams, events)\n- Web frameworks (Express, Fastify, NestJS)\n- JavaScript concepts (ES6+, TypeScript, async/await)\n- Database integration (MongoDB, PostgreSQL, Redis)\n- Testing and security best practices\n- Performance optimization and deployment\n\nWhat specific topic interests you?";
       }
-      else if (topIntent.intent === 'how_to') {
-        return "I can help you with how-to questions! Please specify what you'd like to accomplish (e.g., 'how to create a server', 'how to connect to database').";
+      
+      if (entities.length > 0) {
+        return `I see you're asking about ${entities.join(', ')}. While I don't have specific information about that, I can help you with related Node.js concepts. Could you rephrase your question?`;
       }
+      
+      if (intent.length > 0) {
+        const topIntent = intent[0];
+        
+        if (topIntent.intent === 'learn_concept') {
+          return "I'd be happy to explain that concept! However, I need more specific information. Could you tell me which technology or topic you'd like to learn about?";
+        }
+        else if (topIntent.intent === 'how_to') {
+          return "I can help you with how-to questions! Please specify what you'd like to accomplish (e.g., 'how to create a server', 'how to connect to database').";
+        }
+      }
+    } catch (e) {
+      // Fallback silently if context/intent processing fails
     }
     
     return "I don't understand your question. Try asking about specific Node.js topics like:\n\n- 'How to create an Express server?'\n- 'What is async/await?'\n- 'How to handle errors in Node.js?'\n- 'What is MongoDB?'\n\nI'm trained on 370+ Node.js and JavaScript topics!";
