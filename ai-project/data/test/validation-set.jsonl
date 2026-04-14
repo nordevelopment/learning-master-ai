@@ -1,0 +1,15 @@
+{"input": "How to deploy a Node.js app to production?", "category": "deployment", "output": "Deployment to production involves using PM2, Docker, or platforms like AWS/Heroku."}
+{"input": "Explain what is a Promise in JavaScript", "category": "javascript_concepts", "output": "A Promise is an object representing the eventual completion or failure of an asynchronous operation."}
+{"input": "How to handle CORS in Fastify?", "category": "web_frameworks", "output": "Use the @fastify/cors plugin to handle Cross-Origin Resource Sharing in Fastify."}
+{"input": "What is the difference between let and const?", "category": "javascript_concepts", "output": "let allows reassignment, while const creates a read-only reference that cannot be reassigned."}
+{"input": "How to secure a REST API?", "category": "security", "output": "Secure APIs using JWT, HTTPS, rate limiting, and input validation."}
+{"input": "What is the event loop?", "category": "node_fundamentals", "output": "The event loop is what allows Node.js to perform non-blocking I/O operations."}
+{"input": "How to connect to MongoDB in Node?", "category": "databases", "output": "Use the mongodb driver or Mongoose ODM to connect to MongoDB."}
+{"input": "What is middleware in Express?", "category": "web_frameworks", "output": "Middleware functions have access to request and response objects and can modify them or terminate the cycle."}
+{"input": "How to use async/await?", "category": "javascript_concepts", "output": "The async keyword makes a function return a promise, and await pauses execution until the promise settles."}
+{"input": "What is NPM?", "category": "development_tools", "output": "NPM is the default package manager for Node.js used to install and manage dependencies."}
+{"input": "Tell me about JWT authentication", "category": "security", "output": "JSON Web Tokens (JWT) are a compact, URL-safe means of representing claims between two parties."}
+{"input": "How to read a file asynchronously?", "category": "node_fundamentals", "output": "Use fs.promises.readFile() or fs.readFile() with a callback to read files asynchronously."}
+{"input": "What are microservices?", "category": "architecture", "output": "Microservices are an architectural style that structures an application as a collection of small, independent services."}
+{"input": "How to write unit tests for Node.js?", "category": "testing", "output": "Use frameworks like Jest, Mocha, or Vitest to write unit tests for your Node.js applications."}
+{"input": "Explain the concept of streams", "category": "node_fundamentals", "output": "Streams are collections of data that might not be available all at once and don't fit in memory."}

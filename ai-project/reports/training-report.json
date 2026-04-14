@@ -1,15 +1,15 @@
 {
   "training_session": {
-    "timestamp": "2026-04-14T13:57:50.826Z",
-    "duration_ms": 1214,
-    "samples_processed": 732,
-    "patterns_learned": 1893
+    "timestamp": "2026-04-14T19:21:49.707Z",
+    "duration_ms": 652,
+    "samples_processed": 1246,
+    "patterns_learned": 3178
   },
   "model_info": {
-    "type": "NodeJS-Master-AI-Hybrid",
-    "version": "4.0.0",
-    "intelligence_level": "Hybrid (TF-IDF + NLP + Manual Weights)",
-    "accuracy_estimate": "95%+"
+    "type": "AI Educational Sandbox",
+    "version": "2.0.0",
+    "intelligence_level": "Hybrid (BM25 + Naive Bayes + NLP)",
+    "accuracy_estimate": "50.4%"
   },
   "nlp_features": [
     "Lemmatization",
@@ -20,8 +20,8 @@
   ],
   "performance_metrics": {
     "response_time_ms": "<1ms",
-    "memory_usage_kb": 699,
-    "model_size_chars": 716180,
-    "data_hash": "48a6f38fb58c6efc6a2d98c036f1743a"
+    "memory_usage_kb": 990,
+    "model_size_chars": 1013406,
+    "data_hash": "860ebed909956164d5810f15ff8711bc"
   }
 }

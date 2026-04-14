@@ -1,7 +1,7 @@
 {
   "name": "ai-learning-master-sandbox",
   "version": "1.0.0",
-  "description": "Universal Learning Platform for AI Education and Technology Training - Educational framework that demonstrates AI fundamentals through practical implementation. Learn how AI systems work, train them with custom data, and create intelligent assistants for any domain or technology stack.",
+  "description": "AI Learning Master Sandbox - Educational framework that demonstrates AI fundamentals through practical implementation. Learn how AI systems work, train them with custom data, and create intelligent assistants for any domain or technology stack.",
   "license": "MIT",
   "author": "Norayr Petrosyan",
   "type": "commonjs",

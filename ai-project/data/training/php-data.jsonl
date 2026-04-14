@@ -1,0 +1,100 @@
+{"input":"What is PHP?","category":"php","output":"PHP is a popular general-purpose scripting language that is especially suited to web development."}
+{"input":"How to start a PHP block?","category":"php","output":"Use '<?php' to start and '?>' to end (though the closing tag is optional in pure PHP files)."}
+{"input":"How to print text in PHP?","category":"php","output":"Use 'echo' or 'print'. Echo is slightly faster and can take multiple parameters."}
+{"input":"How are variables declared in PHP?","category":"php","output":"Variables start with a dollar sign '$', followed by the variable name."}
+{"input":"Is PHP case-sensitive?","category":"php","output":"Variable names are case-sensitive, but function and class names are not."}
+{"input":"What are PHP data types?","category":"php","output":"String, Integer, Float, Boolean, Array, Object, NULL, and Resource."}
+{"input":"How to create an array in PHP?","category":"php","output":"Use array() function or shorthand []. Example: '$colors = [\"red\", \"blue\"];'."}
+{"input":"What is an associative array?","category":"php","output":"An array that uses named keys instead of numeric indexes."}
+{"input":"How to get the length of a string in PHP?","category":"php","output":"Use 'strlen()' function."}
+{"input":"How to combine two strings?","category":"php","output":"Use the dot '.' operator. Example: '$fullName = $firstName . \" \" . $lastName;'."}
+{"input":"What is a constructor in PHP?","category":"php","output":"A special method '__construct()' that is called automatically when an object is created."}
+{"input":"How to define a constant in PHP?","category":"php","output":"Use 'define(\"NAME\", \"value\")' or 'const NAME = \"value\";' inside classes."}
+{"input":"What is the difference between == and ===?","category":"php","output":"== checks for value equality (with type conversion), while === checks for both value and type equality."}
+{"input":"How to include another PHP file?","category":"php","output":"Use 'include', 'require', 'include_once', or 'require_once'."}
+{"input":"What is the difference between include and require?","category":"php","output":"Include produces a warning if the file is missing, while require produces a fatal error and stops script execution."}
+{"input":"How to start a session in PHP?","category":"php","output":"Use 'session_start()' at the beginning of your script."}
+{"input":"How to store value in a session?","category":"php","output":"Use '$_SESSION[\"key\"] = \"value\";'."}
+{"input":"How to get values from a form (GET method)?","category":"php","output":"Use the '$_GET' superglobal array."}
+{"input":"How to get values from a form (POST method)?","category":"php","output":"Use the '$_POST' superglobal array."}
+{"input":"What is PDO in PHP?","category":"php","output":"PHP Data Objects (PDO) is a database abstraction layer providing a uniform method of access to various databases."}
+{"input":"How to connect to MySQL using PDO?","category":"php","output":"new PDO(\"mysql:host=$host;dbname=$dbname\", $user, $pass);"}
+{"input":"What is Composer?","category":"php","output":"Composer is a dependency manager for PHP, used to manage libraries and packages."}
+{"input":"How to install a package with Composer?","category":"php","output":"Use 'composer require vendor/package-name'."}
+{"input":"What is a namespace in PHP?","category":"php","output":"Namespaces are a way of encapsulating items to avoid name collisions between different code parts."}
+{"input":"How to declare a namespace?","category":"php","output":"Use 'namespace MyProject\\Package;' at the top of the file."}
+{"input":"What is a Trait in PHP?","category":"php","output":"A mechanism for code reuse in single inheritance languages like PHP, allowing developers to reuse sets of methods in several independent classes."}
+{"input":"What is the ternary operator in PHP?","category":"php","output":"'$result = condition ? value_if_true : value_if_false;'."}
+{"input":"What is the null coalescing operator?","category":"php","output":"'$val = $a ?? $b;' - it returns $a if it exists and is not null, otherwise returns $b."}
+{"input":"How to convert JSON string to PHP array?","category":"php","output":"Use 'json_decode($json, true);'."}
+{"input":"How to convert PHP array to JSON string?","category":"php","output":"Use 'json_encode($array);'."}
+{"input":"What is 'self' vs '$this'?","category":"php","output":"'self' refers to the class itself (for static members), while '$this' refers to the current object instance."}
+{"input":"How to handle errors/exceptions in PHP?","category":"php","output":"Use 'try { ... } catch (Exception $e) { ... }' blocks."}
+{"input":"What is interface in PHP?","category":"php","output":"A contract that specifies which methods a class must implement, without defining their implementation."}
+{"input":"What is abstract class?","category":"php","output":"A class that cannot be instantiated and may contain abstract methods that subclasses must implement."}
+{"input":"How to find the number of elements in an array?","category":"php","output":"Use 'count($array)' function."}
+{"input":"What are magic methods in PHP?","category":"php","output":"Methods starting with __ (like __get, __set, __call) that allow overloading and intercepting events."}
+{"input":"How to upload a file in PHP?","category":"php","output":"Use '$_FILES' superglobal and 'move_uploaded_file()' function."}
+{"input":"What is output buffering?","category":"php","output":"Technique that tells PHP to store the output in internal buffer instead of sending it to the browser immediately (ob_start, ob_get_clean)."}
+{"input":"How to set a cookie in PHP?","category":"php","output":"Use 'setcookie(\"name\", \"value\", time() + 3600);'."}
+{"input":"How to format a date in PHP?","category":"php","output":"Use 'date(\"Y-m-d H:i:s\")' function."}
+{"input":"What is the purpose of die() or exit()?","category":"php","output":"To stop the script execution immediately and optionally output a message."}
+{"input":"How to remove whitespace from both sides of a string?","category":"php","output":"Use 'trim($string)' function."}
+{"input":"What is type hinting in PHP?","category":"php","output":"Specifying the expected data type for function arguments or return values."}
+{"input":"What is an Anonymous function?","category":"php","output":"A function that has no specified name, often used as a closure or callback."}
+{"input":"How to use 'use' keyword with closures?","category":"php","output":"To inherit variables from the parent scope into the anonymous function's scope."}
+{"input":"What is the difference between public, protected, and private?","category":"php","output":"Public members are accessible everywhere; protected only within the class and its subclasses; private only within the class itself."}
+{"input":"What is PSR?","category":"php","output":"PHP Standard Recommendation - a set of standards for coding style, autoloading, etc., published by the PHP-FIG group."}
+{"input":"What is Guzzle?","category":"php","output":"A popular PHP HTTP client that makes it easy to send HTTP requests and integrate with web services."}
+{"input":"How to check if a variable is an array?","category":"php","output":"Use 'is_array($var)' function."}
+{"input":"How to check if a key exists in an array?","category":"php","output":"Use 'array_key_exists(\"key\", $array)' or 'isset($array[\"key\"])'."}
+{"input":"What is autoloading in PHP?","category":"php","output":"Automatically loading class files when they are needed, typically using 'spl_autoload_register' or Composer's autoloader."}
+{"input":"How to see all errors in PHP for development?","category":"php","output":"Set 'display_errors = On' and 'error_reporting = E_ALL' in php.ini or use ini_set() in code."}
+{"input":"What is heredoc syntax?","category":"php","output":"A way to define multi-line strings without escaping quotes, starting with <<<EOD and ending with EOD."}
+{"input":"How to remove a variable correctly?","category":"php","output":"Use 'unset($variable);'."}
+{"input":"What is explode() function?","category":"php","output":"Splits a string into an array by a delimiter."}
+{"input":"What is implode() function?","category":"php","output":"Joins array elements into a string with a separator."}
+{"input":"How to sort an array in ascending order?","category":"php","output":"Use 'sort($array)' function."}
+{"input":"How to sort an associative array by key?","category":"php","output":"Use 'ksort($array)' function."}
+{"input":"What is the use of 'final' keyword?","category":"php","output":"Prevents a class from being inherited or a method from being overridden."}
+{"input":"What is static keyword in PHP?","category":"php","output":"Used to declare properties and methods that belong to the class rather than an object instance."}
+{"input":"How to get the current working directory?","category":"php","output":"Use 'getcwd()' function."}
+{"input":"What is __DIR__ magic constant?","category":"php","output":"It returns the directory of the current PHP file."}
+{"input":"What is phpinfo()?","category":"php","output":"A function that outputs a large amount of information about current PHP configuration and environment."}
+{"input":"How to encrypt a password in PHP?","category":"php","output":"Use 'password_hash($password, PASSWORD_DEFAULT)'."}
+{"input":"How to verify a password?","category":"php","output":"Use 'password_verify($password, $hash)'."}
+{"input":"What is the difference between $a++ and ++$a?","category":"php","output":"$a++ is post-increment (returns value then increments), ++$a is pre-increment (increments then returns value)."}
+{"input":"How to redirect a user to another page?","category":"php","output":"Use 'header(\"Location: otherpage.php\"); exit;'."}
+{"input":"What is CSRF in the context of PHP?","category":"php","output":"Cross-Site Request Forgery - a vulnerability where unauthorized commands are executed on behalf of an authenticated user."}
+{"input":"How to prevent XSS in PHP?","category":"php","output":"Escape all user-provided output using 'htmlspecialchars()'."}
+{"input":"What is the purpose of php.ini?","category":"php","output":"It is the main configuration file for PHP, controlling memory limits, file uploads, extensions, etc."}
+{"input":"How to get the type of a variable?","category":"php","output":"Use 'gettype($var)' function."}
+{"input":"What is object serialization?","category":"php","output":"Converting an object into a storable string representation using 'serialize()' and 'unserialize()'."}
+{"input":"What is cURL in PHP?","category":"php","output":"A library that allows you to connect and communicate with many different types of servers and protocols."}
+{"input":"How to iterate over an array?","category":"php","output":"Use 'foreach ($array as $key => $value)' loop."}
+{"input":"What is a filter in PHP (filter_var)?","category":"php","output":"A function used to validate or sanitize external data like email, URL, or numbers."}
+{"input":"How to check if a file exists in PHP?","category":"php","output":"Use 'file_exists(\"path/to/file\")' function."}
+{"input":"What is the use of 'use' statement for classes?","category":"php","output":"To import classes from other namespaces so you can use them without fully qualified names."}
+{"input":"How to get current timestamp?","category":"php","output":"Use 'time()' function."}
+{"input":"What is difference between array_merge and + operator for arrays?","category":"php","output":"array_merge() re-indexes numeric keys, while '+' preserves them and keeps only the first occurrence for duplicate keys."}
+{"input":"How to find a substring in a string?","category":"php","output":"Use 'strpos($haystack, $needle)' function."}
+{"input":"What is PHP-FPM?","category":"php","output":"PHP FastCGI Process Manager - an alternative PHP FastCGI implementation with some additional features for heavy-loaded sites."}
+{"input":"How to get the current CPU memory usage in PHP?","category":"php","output":"Use 'memory_get_usage()' function."}
+{"input":"What is a Generator in PHP?","category":"php","output":"A function that yields values instead of returning them, allowing memory-efficient iteration over large data sets."}
+{"input":"What does yield keyword do?","category":"php","output":"It pauses the execution of a generator function and returns the current value to the caller."}
+{"input":"How to read a file into a string?","category":"php","output":"Use 'file_get_contents(\"filename\")' function."}
+{"input":"What is 'strict_types=1'?","category":"php","output":"A directive that enforces strict data type checking for function parameters and return values in the current file."}
+{"input":"How to set the default timezone?","category":"php","output":"Use 'date_default_timezone_set(\"UTC\")' function."}
+{"input":"What is 'declare' statement?","category":"php","output":"Used to set execution directives for a block of code (like ticks or strict_types)."}
+{"input":"How to compare two strings case-insensitively?","category":"php","output":"Use 'strcasecmp($str1, $str2)' function."}
+{"input":"What is 'callable' type hint?","category":"php","output":"Indicates that the argument must be a valid function name, anonymous function, or object method."}
+{"input":"How to get environmental variables?","category":"php","output":"Use 'getenv(\"VAR_NAME\")' or '$_ENV' array."}
+{"input":"What is Laravel?","category":"php","output":"A popular web application framework with expressive, elegant syntax for building robust PHP applications."}
+{"input":"What is Symfony?","category":"php","output":"A set of reusable PHP components and a framework for web projects."}
+{"input":"How to check if session has started?","category":"php","output":"Use 'session_status() === PHP_SESSION_ACTIVE'."}
+{"input":"What is OpCache?","category":"php","output":"A PHP extension that improves performance by storing precompiled script bytecode in shared memory."}
+{"input":"How to clear OpCache?","category":"php","output":"Use 'opcache_reset()' function."}
+{"input":"What is variable variables in PHP ($$var)?","category":"php","output":"A feature where the name of a variable can be set and used dynamically."}
+{"input":"How to check if a class exists?","category":"php","output":"Use 'class_exists(\"ClassName\")' function."}
+{"input":"What is the null type?","category":"php","output":"A special type that represents a variable with no value."}
+{"input":"How to cast a variable to another type?","category":"php","output":"Use '(type)$var'. Example: '(int)\"10\"' converts string to integer."}

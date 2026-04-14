@@ -1,0 +1,100 @@
+{"input":"What is the command to list processes in Linux?","category":"linux","output":"Use 'ps' command to list currently running processes or 'top' for real-time monitoring."}
+{"input":"How to change file permissions?","category":"linux","output":"Use 'chmod' command. Example: 'chmod 755 filename' gives owner full access and others read/execute."}
+{"input":"What is sudo?","category":"linux","output":"Sudo (SuperUser DO) allows users to run programs with security privileges of another user, usually the root."}
+{"input":"How to check disk usage?","category":"linux","output":"Use 'df' for disk space on filesystems or 'du' for directory space usage."}
+{"input":"What command displays a file content?","category":"linux","output":"Use 'cat' to display whole content, 'less' for paging, or 'head/tail' for first/last lines."}
+{"input":"How to find files by name?","category":"linux","output":"Use 'find / -name filename' or 'locate filename' for faster indexed searching."}
+{"input":"What is the kernel?","category":"linux","output":"The kernel is the core of the operating system that manages CPU, memory, and hardware devices."}
+{"input":"How to see network interfaces?","category":"linux","output":"Use 'ip addr' or the legacy 'ifconfig' command."}
+{"input":"What is a symlink?","category":"linux","output":"A symbolic link (symlink) is a special file that points to another file or directory."}
+{"input":"How to create a symlink?","category":"linux","output":"Use 'ln -s target linkname' command."}
+{"input":"What is cron?","category":"linux","output":"Cron is a time-based job scheduler used to run commands or scripts at specific fixed times or intervals."}
+{"input":"How to edit crontab?","category":"linux","output":"Use 'crontab -e' command to edit the cron jobs for current user."}
+{"input":"What is SSH?","category":"linux","output":"Secure Shell (SSH) is a protocol for secure remote login and other secure network services over an insecure network."}
+{"input":"How to kill a process?","category":"linux","output":"Use 'kill <PID>' or 'killall <process_name>'. Use '-9' flag for forceful termination."}
+{"input":"What is the difference between apt and apt-get?","category":"linux","output":"Apt is a newer command-line interface that combines features of apt-get and apt-cache with a more user-friendly output."}
+{"input":"How to update system packages?","category":"linux","output":"Use 'sudo apt update' to refresh lists and 'sudo apt upgrade' to install updates."}
+{"input":"What is /etc directory for?","category":"linux","output":"The /etc directory contains system-wide configuration files."}
+{"input":"What is /var/log for?","category":"linux","output":"The /var/log directory contains log files produced by various system services and applications."}
+{"input":"How to search for text in files?","category":"linux","output":"Use 'grep' command. Example: 'grep \"search_term\" filename'."}
+{"input":"What is Bash?","category":"linux","output":"Bash (Bourne Again SHell) is the default command processor and shell for most Linux distributions."}
+{"input":"How to create a directory?","category":"linux","output":"Use 'mkdir directory_name' command."}
+{"input":"How to move or rename a file?","category":"linux","output":"Use 'mv source destination' command."}
+{"input":"How to copy a file?","category":"linux","output":"Use 'cp source destination' command."}
+{"input":"What is a daemon?","category":"linux","output":"A daemon is a background process that runs continuously and handles system tasks or services."}
+{"input":"How to check system uptime?","category":"linux","output":"Use 'uptime' command to see how long the system has been running."}
+{"input":"How to check free memory?","category":"linux","output":"Use 'free -m' or 'free -h' for human-readable format."}
+{"input":"What is the root user?","category":"linux","output":"Root is the administrative user in Linux with absolute control over the system."}
+{"input":"How to change your password?","category":"linux","output":"Use 'passwd' command."}
+{"input":"What is a shell script?","category":"linux","output":"A shell script is a text file containing a sequence of commands for the shell to execute."}
+{"input":"What does chmod +x do?","category":"linux","output":"It makes a file executable."}
+{"input":"How to see hardware information?","category":"linux","output":"Use 'lscpu', 'lsblk', or 'lspci' commands."}
+{"input":"What is a package manager?","category":"linux","output":"A tool that automates installing, upgrading, and removing software (e.g., APT, YUM, Pacman)."}
+{"input":"How to extract a .tar.gz file?","category":"linux","output":"Use 'tar -xzvf file.tar.gz' command."}
+{"input":"What is the difference between TCP and UDP?","category":"linux","output":"TCP is connection-oriented and reliable, while UDP is connectionless and faster but less reliable."}
+{"input":"How to check open ports?","category":"linux","output":"Use 'netstat -tuln' or 'ss -tuln' commands."}
+{"input":"What is a firewall in Linux?","category":"linux","output":"A system that controls incoming and outgoing network traffic (e.g., IPTables, UFW, Firewalld)."}
+{"input":"How to enable UFW firewall?","category":"linux","output":"Use 'sudo ufw enable' command."}
+{"input":"What is the head command?","category":"linux","output":"It displays the first 10 lines of a file by default."}
+{"input":"What is the tail command?","category":"linux","output":"It displays the last 10 lines of a file by default. Use '-f' to follow changes in real-time."}
+{"input":"How to count lines in a file?","category":"linux","output":"Use 'wc -l filename' command."}
+{"input":"What is pipelining in Linux?","category":"linux","output":"Uisng '|' to pass the output of one command as input to another."}
+{"input":"How to redirect output to a file?","category":"linux","output":"Use '>' to overwrite or '>>' to append. Example: 'echo \"hi\" > file.txt'."}
+{"input":"What is an alias?","category":"linux","output":"A shortcut for a command or series of commands. Example: 'alias ll=\"ls -la\"'."}
+{"input":"Where are aliases stored?","category":"linux","output":"Usually in ~/.bashrc or ~/.zshrc files."}
+{"input":"How to check current user?","category":"linux","output":"Use 'whoami' command."}
+{"input":"What is the ping command used for?","category":"linux","output":"To check network connectivity between two systems."}
+{"input":"How to see command history?","category":"linux","output":"Use 'history' command."}
+{"input":"What is SSH key authentication?","category":"linux","output":"A method of logging in using a pair of cryptographic keys instead of a password."}
+{"input":"How to generate SSH keys?","category":"linux","output":"Use 'ssh-keygen -t rsa' command."}
+{"input":"What is the /tmp directory?","category":"linux","output":"A directory for temporary files, usually cleared on reboot."}
+{"input":"What is a mount point?","category":"linux","output":"A directory used to access data on a separate disk partition or storage device."}
+{"input":"How to mount a drive?","category":"linux","output":"Use 'mount /dev/sdb1 /mnt/data' command."}
+{"input":"What is swap space?","category":"linux","output":"Space on disk used as an extension of RAM when physical memory is full."}
+{"input":"How to check system logs?","category":"linux","output":"Use 'journalctl -xe' or check /var/log/syslog (or /var/log/messages)."}
+{"input":"What is systemd?","category":"linux","output":"The modern init system and service manager used in many Linux distributions."}
+{"input":"How to start a service with systemd?","category":"linux","output":"Use 'sudo systemctl start service_name'."}
+{"input":"How to check service status?","category":"linux","output":"Use 'systemctl status service_name'."}
+{"input":"What is a ZOMBIE process?","category":"linux","output":"A process that has completed execution but still has an entry in the process table."}
+{"input":"How to see environment variables?","category":"linux","output":"Use 'env' or 'printenv' commands."}
+{"input":"What is Path variable?","category":"linux","output":"An environment variable that tells the shell where to look for executable files."}
+{"input":"How to add a directory to PATH?","category":"linux","output":"Add 'export PATH=$PATH:/your/dir' to your shell profile file."}
+{"input":"What is the diff command?","category":"linux","output":"It compares two files line by line and shows the differences."}
+{"input":"What is the rsync command?","category":"linux","output":"A fast and versatile utility for copying and synchronizing files and directories locally or remotely."}
+{"input":"How to see current directory?","category":"linux","output":"Use 'pwd' (Print Working Directory) command."}
+{"input":"What is standard output (stdout)?","category":"linux","output":"The default destination for program output (usually the terminal)."}
+{"input":"What is standard error (stderr)?","category":"linux","output":"The destination for error messages, independent of stdout."}
+{"input":"How to redirect stderr to stdout?","category":"linux","output":"Use '2>&1' at the end of the command."}
+{"input":"What is a shell variable?","category":"linux","output":"A local variable valid only in the current shell session."}
+{"input":"What is the chown command?","category":"linux","output":"It changes the owner and/or group of a file or directory."}
+{"input":"How to change the owner of a file?","category":"linux","output":"Use 'sudo chown username filename'."}
+{"input":"What is the sed command?","category":"linux","output":"A stream editor used to perform search and replace operations on text files."}
+{"input":"What is the awk command?","category":"linux","output":"A powerful text processing language for pattern scanning and processing."}
+{"input":"How to sort lines in a text file?","category":"linux","output":"Use 'sort filename' command."}
+{"input":"How to find unique lines?","category":"linux","output":"Use 'uniq' command, usually after 'sort'."}
+{"input":"What is Vim?","category":"linux","output":"A highly configurable text editor built to make creating and changing any kind of text very efficient."}
+{"input":"Explain Nano text editor","category":"linux","output":"A simple, easy-to-use terminal based text editor for beginners."}
+{"input":"How to exit Vim?","category":"linux","output":"Type ':q' to exit, ':q!' to exit without saving, or ':wq' to save and exit."}
+{"input":"What is grep -r?","category":"linux","output":"It searches for a pattern recursively in all files within a directory."}
+{"input":"What is the locate command?","category":"linux","output":"A fast way to find files using a pre-built database (updated with 'updatedb')."}
+{"input":"How to see kernel version?","category":"linux","output":"Use 'uname -r' command."}
+{"input":"What is the /proc directory?","category":"linux","output":"A virtual filesystem that provides an interface to kernel data structures."}
+{"input":"How to see memory info from /proc?","category":"linux","output":"Use 'cat /proc/meminfo'."}
+{"input":"What is the difference between hard and soft links?","category":"linux","output":"Hard links point to the inode, while soft (symbolic) links point to the file path."}
+{"input":"What is the find -type d command?","category":"linux","output":"It restricts the 'find' command to only look for directories."}
+{"input":"How to run a command in the background?","category":"linux","output":"Add '&' to the end of the command."}
+{"input":"What is the jobs command?","category":"linux","output":"It lists the jobs running in the current shell session."}
+{"input":"How to bring a background job to foreground?","category":"linux","output":"Use 'fg %job_id' command."}
+{"input":"How to see CPU info?","category":"linux","output":"Use 'lscpu' or 'cat /proc/cpuinfo'."}
+{"input":"What is the nohup command?","category":"linux","output":"It runs a command that persists even after you log out of the shell."}
+{"input":"What is a tarball?","category":"linux","output":"A file that contains multiple files grouped together using the 'tar' utility."}
+{"input":"How to create a .tar archieve?","category":"linux","output":"Use 'tar -cvf archive.tar directory_name'."}
+{"input":"How to see your motherboard info?","category":"linux","output":"Use 'sudo dmidecode -t baseboard'."}
+{"input":"What is the hostname command?","category":"linux","output":"It displays or sets the system's host name."}
+{"input":"How to see listening sockets?","category":"linux","output":"Use 'ss -l' or 'netstat -l' commands."}
+{"input":"What is the curl command?","category":"linux","output":"A tool to transfer data from or to a server using supported protocols (HTTP, FTP, etc.)."}
+{"input":"What is the wget command?","category":"linux","output":"A non-interactive network downloader used to download files from the web."}
+{"input":"How to check available shells?","category":"linux","output":"Use 'cat /etc/shells'."}
+{"input":"What is the chsh command?","category":"linux","output":"It allows you to change your login shell."}
+{"input":"What is the groupadd command?","category":"linux","output":"It creates a new group on the system."}
+{"input":"How to add a user to a group?","category":"linux","output":"Use 'sudo usermod -aG groupname username'."}

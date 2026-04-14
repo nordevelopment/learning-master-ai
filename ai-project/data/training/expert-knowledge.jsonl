@@ -1,0 +1,8 @@
+{"input": "How to secure a REST API?", "category": "security", "output": "Secure APIs using JWT, HTTPS, rate limiting, and input validation."}
+{"input": "What is the difference between let and const?", "category": "javascript_concepts", "output": "let allows reassignment, while const creates a read-only reference that cannot be reassigned."}
+{"input": "How to use async/await?", "category": "javascript_concepts", "output": "The async keyword makes a function return a promise, and await pauses execution until that promise is resolved."}
+{"input": "What is the event loop?", "category": "node_fundamentals", "output": "The event loop is what allows Node.js to perform non-blocking I/O operations by offloading operations to the system kernel whenever possible."}
+{"input": "How to connect to MongoDB in Node?", "category": "databases", "output": "Use the mongodb driver or Mongoose ODM to connect your Node.js application to a MongoDB database."}
+{"input": "What is NPM?", "category": "development_tools", "output": "NPM is the default package manager for Node.js used to install, share, and manage project dependencies."}
+{"input": "How to read a file asynchronously?", "category": "node_fundamentals", "output": "Use fs.promises.readFile() or fs.readFile() with a callback to read file contents without blocking the event loop."}
+{"input": "Explain the concept of streams", "category": "node_fundamentals", "output": "Streams are collections of data that might not be available all at once and don't fit in memory, allowing you to process data piece by piece."}

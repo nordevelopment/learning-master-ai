@@ -1,12 +1,17 @@
 {
   "name": "AI Learning Master Sandbox",
+  "bot_name": "AI Learning Master",
   "version": "2.0.0",
   "type": "AI Educational Sandbox",
+  "model_file": "ai-Learning-master.json",
   "engine": "Hybrid TF-IDF + Naive Bayes",
   "parameters": {
-    "description": "Core configuration for the NLP engine",
+    "description": "Core configuration for the NLP engine (BM25 + Context)",
+    "k1": 1.5,
+    "b": 0.75,
     "confidence_threshold": 0.1,
-    "context_turns": 3
+    "max_history_length": 20,
+    "max_context_age_turns": 5
   },
   "capabilities": [
     "Node.js Fundamentals",
@@ -17,5 +22,6 @@
   ],
   "author": "Norayr Petrosyan",
   "license": "MIT",
+  "Now": "2026-04-14",
   "created": "2026-04-14"
 }

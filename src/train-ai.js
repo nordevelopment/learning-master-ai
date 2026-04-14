@@ -13,12 +13,12 @@ async function trainAI() {
     const trainingDir = 'data/training';
     const files = await aiFileManager.listDirAsync(trainingDir);
     const jsonlFiles = files.filter(f => f.name.endsWith('.jsonl'));
-    
+
     let trainingData = [];
     for (const file of jsonlFiles) {
       console.log(`   - Loading ${file.name}...`);
       const data = await aiFileManager.readTrainingDataAsync(
-        `${trainingDir}/${file.name}`, 
+        `${trainingDir}/${file.name}`,
         'jsonl'
       );
       trainingData = trainingData.concat(data);
@@ -27,43 +27,64 @@ async function trainAI() {
     console.log(`\n   Total loaded ${trainingData.length} training examples from ${jsonlFiles.length} files`);
 
     // 2. Check if model already exists
-    console.log('\n2. Checking existing model...');
+    const modelPath = `models/${ai.config.model_file}`;
+    console.log(`\n2. Checking existing model: ${modelPath}...`);
     try {
-      const existingModel = await aiFileManager.readJsonAsync('models/simple-ai-model.json');
+      const existingModel = await aiFileManager.readJsonAsync(modelPath);
       const dataHash = require('crypto').createHash('md5').update(JSON.stringify(trainingData)).digest('hex');
-      
-      if (existingModel.data_hash === dataHash) {
+
+      const forceRetrain = process.argv.includes('--force');
+
+      if (existingModel.data_hash === dataHash && !forceRetrain) {
         console.log('   Model already exists and data hasn\'t changed');
-        console.log('   Skipping training. Use --force to retrain.');
+        console.log('   Skipping training. Tip: Use "npm run train -- --force" to retrain anyway.');
         console.log('   Existing model trained on:', existingModel.created);
         return;
       }
-      
-      console.log('   Data has changed, retraining required...');
+
+      if (forceRetrain) {
+        console.log('   Force retrain requested...');
+      } else {
+        console.log('   Data has changed, retraining required...');
+      }
     } catch (error) {
       console.log('   No existing model found, training from scratch...');
     }
 
-    // 3. Train the AI
-    console.log('\n3. Training AI model...');
-    const startTime = Date.now();
-    await ai.train(trainingData);
-    const trainingTime = Date.now() - startTime;
+    // 3. Split data for validation (10% for testing)
+    console.log('\n3. Preparing training and validation sets...');
+    const shuffled = [...trainingData].sort(() => 0.5 - Math.random());
+    const splitIndex = Math.floor(shuffled.length * 0.9);
+    const trainSet = shuffled.slice(0, splitIndex);
+    const valSet = shuffled.slice(splitIndex);
 
+    console.log(`   Training set: ${trainSet.length} samples`);
+    console.log(`   Validation set: ${valSet.length} samples`);
+
+    // 4. Train the AI
+    console.log('\n4. Training AI model...');
+    const startTime = Date.now();
+    await ai.train(trainSet);
+    const trainingTime = Date.now() - startTime;
     console.log(`   Training completed in ${trainingTime}ms`);
 
-    // 4. Save AI model
-    console.log('\n4. Saving AI model...');
+    // 5. Calculate Real Accuracy
+    console.log('\n5. Validating model accuracy...');
+    const accuracy = ai.calculateAccuracy(valSet);
+    console.log(`   Real Accuracy: ${accuracy.toFixed(1)}%`);
+
+    // 6. Save AI model
+    console.log('\n6. Saving AI model...');
     const dataHash = require('crypto').createHash('md5').update(JSON.stringify(trainingData)).digest('hex');
-    const modelData = await ai.saveModel('models/simple-ai-model.json');
-    
+    const modelData = await ai.saveModel(modelPath);
+
     // Add data hash to model
     modelData.data_hash = dataHash;
-    await aiFileManager.writeJsonAsync('models/simple-ai-model.json', modelData);
+    await aiFileManager.writeJsonAsync(modelPath, modelData);
     console.log('   AI model saved successfully!');
 
-    // 5. Save training report
-    console.log('\n5. Saving training report...');
+    // 7. Save training report
+    console.log('\n7. Saving training report...');
     const trainingReport = {
       training_session: {
         timestamp: new Date().toISOString(),
@@ -96,7 +117,7 @@ async function trainAI() {
     await aiFileManager.writeJsonAsync('reports/training-report.json', trainingReport);
     console.log('   Training report saved!');
 
-    // 6. Summary
+    // 8. Summary
     console.log('\n=== TRAINING SUMMARY ===');
     console.log(`Training samples: ${trainingData.length}`);
     console.log(`Keyword patterns: ${ai.responses.size}`);

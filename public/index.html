@@ -38,6 +38,7 @@
                 radial-gradient(circle at 90% 80%, rgba(16, 185, 129, 0.1) 0%, transparent 40%);
             color: var(--text-main);
             display: flex;
+            height: 100vh;
         }
 
         /* Sidebar Implementation */
@@ -406,7 +407,7 @@
                 display: none;
             }
         }
-        
+
         /* Debug Panel Styles */
         .debug-section {
             background: var(--glass);
@@ -415,6 +416,7 @@
             padding: 10px;
             margin-bottom: 10px;
         }
+
         .debug-label {
             font-size: 0.7rem;
             text-transform: uppercase;
@@ -422,28 +424,33 @@
             margin-bottom: 8px;
             font-weight: 600;
         }
+
         .debug-data {
             font-size: 0.75rem;
             color: var(--text-muted);
             font-family: 'JetBrains Mono', monospace;
         }
+
         .debug-item {
             display: flex;
             justify-content: space-between;
             margin-bottom: 4px;
         }
+
         .debug-bar {
             width: 80px;
             height: 6px;
-            background: rgba(255,255,255,0.1);
+            background: rgba(255, 255, 255, 0.1);
             border-radius: 3px;
             overflow: hidden;
             margin-left: 8px;
         }
+
         .debug-bar-fill {
             height: 100%;
             background: var(--accent);
         }
+
         .intent-badge {
             background: rgba(16, 185, 129, 0.2);
             color: var(--accent);
@@ -497,10 +504,11 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="section-title" style="margin-top: 40px;">
                     <span>🔍 AI Debug View</span>
-                    <button onclick="toggleDebugPanel()" style="background: var(--primary); border: none; color: white; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 0.7rem;">Show</button>
+                    <button onclick="toggleDebugPanel()"
+                        style="background: var(--primary); border: none; color: white; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 0.7rem;">Show</button>
                 </div>
                 <div id="debugPanel" style="display: none;">
                     <div class="debug-section">
@@ -705,40 +713,40 @@
             panel.style.display = debugVisible ? 'block' : 'none';
             if (debugVisible) loadDebugData();
         }
-        
+
         async function loadDebugData() {
             try {
                 const res = await fetch('/api/debug');
                 const data = await res.json();
-                
+
                 // BM25 Params
                 document.getElementById('bm25Data').innerHTML = `
                     <div class="debug-item"><span>k1:</span><span>${data.bm25.k1}</span></div>
                     <div class="debug-item"><span>b:</span><span>${data.bm25.b}</span></div>
                     <div class="debug-item"><span>avgLen:</span><span>${data.bm25.avgDocLength}</span></div>
                 `;
-                
+
                 // IDF Weights with bars
                 const maxIdf = Math.max(...data.idf.top20.map(x => x.idf));
                 document.getElementById('idfData').innerHTML = data.idf.top20.slice(0, 8).map(x => {
                     const pct = Math.round((x.idf / maxIdf) * 100);
                     return `<div class="debug-item"><span>${x.word}:</span><div style="display:flex;align-items:center;"><div class="debug-bar"><div class="debug-bar-fill" style="width:${pct}%"></div></div><span>${x.idf}</span></div></div>`;
                 }).join('');
-                
+
                 // Intent Classes
                 document.getElementById('intentData').innerHTML = `
                     <div class="debug-item"><span>Total:</span><span>${data.intent.totalCategories}</span></div>
                     <div class="debug-item"><span>Vocabulary:</span><span>${data.intent.totalVocabulary}</span></div>
                     <div style="margin-top:8px;">
-                        ${data.intent.categories.slice(0, 5).map(c => 
-                            `<span class="intent-badge">${c.name} (${c.count})</span>`
-                        ).join('')}
+                        ${data.intent.categories.slice(0, 5).map(c =>
+                    `<span class="intent-badge">${c.name} (${c.count})</span>`
+                ).join('')}
                     </div>
                 `;
-                
+
                 // Recent Context
                 if (data.context.recent.length > 0) {
-                    document.getElementById('contextData').innerHTML = data.context.recent.slice(-3).map(c => 
+                    document.getElementById('contextData').innerHTML = data.context.recent.slice(-3).map(c =>
                         `<div style="margin-bottom:8px;"><div style="color:var(--accent);font-size:0.65rem;">${c.intent}</div><div style="font-size:0.7rem;">${c.question}</div></div>`
                     ).join('');
                 } else {

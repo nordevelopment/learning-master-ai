@@ -1,156 +1,118 @@
 const SimpleAI = require('./ai-core');
+const FileManager = require('./FileManager');
 
 async function testAI() {
-  console.log('=== TESTING NODEJS-MASTER-AI ===\n');
+  console.log('=== TESTING LEARNING-MASTER AI ===\n');
 
   try {
     const ai = new SimpleAI();
+    const aiFileManager = ai.fileManager || new FileManager('./ai-project');
 
     // 1. Load trained model
-    console.log('1. Loading trained AI model...');
-    await ai.loadModel('models/simple-ai-model.json');
+    const modelPath = `models/${ai.config.model_file}`;
+    console.log(`1. Loading trained AI model: ${modelPath}...`);
+    await ai.loadModel(modelPath);
 
     if (!ai.trained) {
       console.error('AI model is not trained! Run "npm run train" first.');
       return;
     }
 
-    // 2. Test questions
-    console.log('\n2. Testing AI responses...\n');
-    
+    // 2. Load Validation Dataset
+    console.log('2. Loading validation dataset...');
+    let validationData = [];
+    try {
+      validationData = await aiFileManager.readTrainingDataAsync('data/test/validation-set.jsonl', 'jsonl');
+      console.log(`   Loaded ${validationData.length} validation samples`);
+    } catch (e) {
+      console.warn('   Validation set not found. Using internal questions.');
+    }
+
+    // 3. Run Real Accuracy Calculation
+    console.log('\n3. Running accuracy benchmark...');
+    let correctCount = 0;
+    const failures = [];
+
+    if (validationData.length > 0) {
+      validationData.forEach((item, index) => {
+        const result = ai.respond(item.input);
+        const topCandidate = result.thinking?.candidates?.[0];
+
+        const isCorrect = topCandidate && (topCandidate.output === item.output || topCandidate.category === item.category);
+
+        if (isCorrect) {
+          correctCount++;
+        } else {
+          failures.push({
+            input: item.input,
+            expected: { category: item.category, output: item.output.substring(0, 50) + '...' },
+            actual: topCandidate ? { category: topCandidate.category, output: topCandidate.output.substring(0, 50) + '...' } : 'None'
+          });
+        }
+      });
+    }
+
+    const realAccuracy = validationData.length > 0 ? (correctCount / validationData.length) * 100 : 0;
+    console.log(`\n   Benchmark Result: ${realAccuracy.toFixed(2)}% (${correctCount}/${validationData.length})`);
+
+    if (failures.length > 0) {
+      console.log('\n   Failures:');
+      failures.forEach((f, i) => {
+        console.log(`   ${i + 1}. Q: "${f.input}"`);
+        console.log(`      Exp: [${f.expected.category}] ${f.expected.output}`);
+        console.log(`      Act: [${f.actual.category || 'N/A'}] ${f.actual.output || 'N/A'}`);
+      });
+    }
+
+    // 4. Test Manual Questions (Qualitative Test)
+    console.log('\n4. Qualitative Testing...\n');
+
     const testQuestions = [
-      // Basic questions
       "How to write a file in Node.js?",
       "What is async/await?",
       "How to handle errors?",
-      
-      // Technology-specific
       "What is Fastify?",
       "How to create Express server?",
-      "What is MongoDB?",
-      
-      // JavaScript concepts
-      "What is Promise?",
-      "JavaScript functions",
-      "Array methods",
-      
-      // Advanced topics
       "How to implement authentication?",
-      "What is microservices?",
-      "Deployment strategies",
-      
-      // Edge cases
-      "Hello AI",
-      "help me",
-      "unknown topic xyz",
-      
-      // Complex questions
-      "How to create a REST API with Fastify and MongoDB?",
-      "Best practices for error handling in Node.js",
-      "Compare Express vs Fastify performance"
+      "unknown topic xyz"
     ];
-
-    let correctResponses = 0;
-    let totalResponseTime = 0;
 
     testQuestions.forEach((question, index) => {
       const startTime = Date.now();
       const result = ai.respond(question);
       const responseTime = Date.now() - startTime;
-      totalResponseTime += responseTime;
 
       console.log(`Q${index + 1}: ${question}`);
-      console.log(`A: ${result.answer}`);
+      console.log(`A: ${result.answer.substring(0, 100)}${result.answer.length > 100 ? '...' : ''}`);
       console.log(`Confidence: ${(result.thinking?.confidence * 100).toFixed(1)}%`);
-      console.log(`Algorithm: ${result.thinking?.algorithm || 'N/A'}`);
+      console.log(`Intent: ${result.thinking?.intent?.map(i => i.intent).join(', ') || 'none'}`);
       console.log(`Time: ${responseTime}ms`);
       console.log('---');
-
-      // Simple heuristic for correct response
-      if (!result.answer.includes("I don't understand") && !result.answer.includes("I'm not trained")) {
-        correctResponses++;
-      }
     });
 
-    // 3. Performance metrics
-    console.log('\n=== PERFORMANCE METRICS ===');
-    const accuracy = (correctResponses / testQuestions.length * 100).toFixed(1);
-    const avgResponseTime = (totalResponseTime / testQuestions.length).toFixed(1);
-
-    console.log(`Test questions: ${testQuestions.length}`);
-    console.log(`Correct responses: ${correctResponses}`);
-    console.log(`Accuracy: ${accuracy}%`);
-    console.log(`Average response time: ${avgResponseTime}ms`);
-    console.log(`Total response time: ${totalResponseTime}ms`);
-    console.log(`Keyword patterns: ${ai.responses.size}`);
-    console.log(`Conversation history: ${ai.conversationHistory.length}`);
-
-    // 4. Test NLP capabilities
-    console.log('\n=== NLP CAPABILITIES TEST ===');
-    
-    const nlpTests = [
-      {
-        question: "How do I create a server?",
-        expected_intent: "how_to"
-      },
-      {
-        question: "What's a Promise?",
-        expected_intent: "learn_concept"
-      },
-      {
-        question: "Fix my async error",
-        expected_intent: "fix_problem"
-      }
-    ];
-
-    nlpTests.forEach((test, index) => {
-      const processed = ai.nlp.processText(test.question);
-      console.log(`NLP Test ${index + 1}: "${test.question}"`);
-      console.log(`  Keywords: ${processed.keywords.slice(0, 5).join(', ')}...`);
-      console.log(`  Entities: ${processed.entities.join(', ') || 'none'}`);
-      console.log(`  Intent: ${processed.intent.map(i => i.intent).join(', ') || 'none'}`);
-      console.log(`  Context: ${processed.context.map(c => c.context).join(', ') || 'none'}`);
-      console.log('');
-    });
-
-    // 5. Test conversation context
-    console.log('=== CONVERSATION CONTEXT TEST ===');
-    
-    // Clear history and test context
-    ai.conversationHistory = [];
-    
-    console.log('Question 1: "What is Express?"');
-    const result1 = ai.respond("What is Express?");
-    console.log(`Response 1: ${result1.answer}`);
-    
-    console.log('\nQuestion 2: "How to use it?"');
-    const result2 = ai.respond("How to use it?");
-    console.log(`Response 2: ${result2.answer}`);
-    
-    console.log(`\nHistory length: ${ai.conversationHistory.length}`);
-    console.log('Context awareness:', ai.conversationHistory.length > 0 ? 'Working' : 'Not working');
-
-    // 6. Final assessment
+    // 5. Final assessment
     console.log('\n=== FINAL ASSESSMENT ===');
-    
+
     let grade = 'C';
-    if (accuracy >= 80) grade = 'A';
-    else if (accuracy >= 60) grade = 'B';
-    else if (accuracy >= 40) grade = 'C';
+    if (realAccuracy >= 85) grade = 'A+';
+    else if (realAccuracy >= 75) grade = 'A';
+    else if (realAccuracy >= 60) grade = 'B';
+    else if (realAccuracy >= 40) grade = 'C';
     else grade = 'D';
 
     console.log(`Overall Grade: ${grade}`);
-    console.log(`Accuracy: ${accuracy}%`);
-    console.log(`Speed: ${avgResponseTime}ms average`);
-    console.log(`NLP: Enhanced`);
-    console.log(`Context: ${ai.conversationHistory.length > 0 ? 'Enabled' : 'Disabled'}`);
+    console.log(`Real Accuracy: ${realAccuracy.toFixed(1)}%`);
+    console.log(`Model Version: ${ai.config.version}`);
+    console.log(`Status: ${realAccuracy >= 60 ? 'OPTIMIZED' : 'NEEDS RETRAINING'}`);
 
-    if (accuracy >= 60) {
-      console.log('\n=== AI TEST PASSED ===');
-      console.log('The AI is performing well and ready for production!');
-    } else {
-      console.log('\n=== AI TEST NEEDS IMPROVEMENT ===');
-      console.log('Consider adding more training examples or improving NLP processing.');
+    // Update model if requested via --update flag
+    if (process.argv.includes('--update')) {
+      console.log('\n6. Updating model with new accuracy estimate...');
+      const modelData = await aiFileManager.readJsonAsync(modelPath);
+      modelData.accuracy_estimate = `${realAccuracy.toFixed(1)}%`;
+      modelData.last_validated = new Date().toISOString();
+      await aiFileManager.writeJsonAsync(modelPath, modelData);
+      console.log('   Model updated successfully!');
     }
 
   } catch (error) {
@@ -158,6 +120,7 @@ async function testAI() {
     process.exit(1);
   }
 }
+
 
 // Run tests
 testAI();

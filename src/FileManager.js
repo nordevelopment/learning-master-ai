@@ -1,4 +1,5 @@
 const fs = require('fs').promises;
+const fsSync = require('fs');
 const path = require('path');
 
 class FileManager {
@@ -95,8 +96,8 @@ class FileManager {
    */
   async writeJsonAsync(filePath, data, pretty = true) {
     try {
-      const jsonString = pretty ? 
-        JSON.stringify(data, null, 2) : 
+      const jsonString = pretty ?
+        JSON.stringify(data, null, 2) :
         JSON.stringify(data);
       return await this.writeFileAsync(filePath, jsonString, 'utf8');
     } catch (error) {
@@ -124,7 +125,7 @@ class FileManager {
   async writeTrainingDataAsync(filePath, data, format = 'jsonl') {
     try {
       let content = '';
-      
+
       if (format === 'jsonl') {
         // JSONL format for training
         content = data.map(item => JSON.stringify(item)).join('\n');
@@ -133,15 +134,29 @@ class FileManager {
         if (data.length > 0) {
           const headers = Object.keys(data[0]);
           content = headers.join(',') + '\n';
-          content += data.map(row => 
+          content += data.map(row =>
             headers.map(header => row[header] || '').join(',')
           ).join('\n');
         }
       }
-      
+
       return await this.writeFileAsync(filePath, content, 'utf8');
     } catch (error) {
       console.error(`[Async] Error writing training data:`, error);
+      throw error;
+    }
+  }
+
+  /**
+   * AI-specific: Read JSON data (Sync)
+   */
+  readJsonSync(filePath) {
+    try {
+      const fullPath = this._getFullPath(filePath);
+      const content = fsSync.readFileSync(fullPath, 'utf8');
+      return JSON.parse(content);
+    } catch (error) {
+      console.error(`[Sync] Error reading JSON:`, error);
       throw error;
     }
   }
@@ -153,7 +168,7 @@ class FileManager {
     try {
       const content = await this.readFileAsync(filePath, 'utf8');
       const lines = content.trim().split('\n').filter(line => line);
-      
+
       if (format === 'jsonl') {
         return lines.map(line => JSON.parse(line));
       } else if (format === 'csv') {
@@ -195,7 +210,7 @@ class FileManager {
     try {
       const fullPath = this._getFullPath(dirPath);
       const entries = await fs.readdir(fullPath, { withFileTypes: true });
-      
+
       return entries.map(entry => ({
         name: entry.name,
         isDir: entry.isDirectory(),
@@ -214,11 +229,11 @@ class FileManager {
     try {
       const fullPath = this._getFullPath(dirPath);
       const files = await fs.readdir(fullPath);
-      
+
       if (extension) {
         return files.filter(file => file.endsWith(extension));
       }
-      
+
       return files;
     } catch (error) {
       console.error(`[Async] Error listing files:`, error);
@@ -233,7 +248,7 @@ class FileManager {
     try {
       const fullSourcePath = this._getFullPath(sourcePath);
       const fullDestPath = this._getFullPath(destPath);
-      
+
       await fs.copyFile(fullSourcePath, fullDestPath);
       console.log(`[Async] File copied: ${fullSourcePath} -> ${fullDestPath}`);
       return true;

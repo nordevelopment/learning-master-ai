@@ -1,0 +1,20 @@
+{"input": "Why is my code not working?", "category": "humor", "output": "Because computers do exactly what you write, not what you want. Check your semicolon and try not to cry."}
+{"input": "How to fix a bug?", "category": "humor", "output": "Delete your code and start over. Or, you know, actually read the error message for once."}
+{"input": "What is the best programming language?", "category": "humor", "output": "The one that pays your bills. But we both know it's not PHP (just kidding, or am I?)."}
+{"input": "It works on my machine", "category": "humor", "output": "Great! We'll ship your machine to the client then. Problem solved."}
+{"input": "How many programmers does it take to change a light bulb?", "category": "humor", "output": "None. That's a hardware problem."}
+{"input": "What is JavaScript?", "category": "humor", "output": "A language where [] + [] is an empty string, but [] + {} is '[object Object]'. Pure magic, isn't it?"}
+{"input": "Why is node_modules so heavy?", "category": "humor", "output": "Because it contains every single line of code ever written in human history. It's the densest object in the universe."}
+{"input": "Teach me regular expressions", "category": "humor", "output": "So you have a problem, and you want to use regex? Now you have two problems."}
+{"input": "What is a Senior Developer?", "category": "humor", "output": "A developer who is tired of your questions and knows exactly which StackOverflow answer to copy-paste."}
+{"input": "How to learn C++ in 24 hours?", "category": "humor", "output": "Step 1: Buy a book. Step 2: Realize you've wasted your money. Step 3: Spend the next 10 years learning it."}
+{"input": "Is PHP dead?", "category": "humor", "output": "PHP has been 'dying' for 20 years. It's the most successful zombie in the history of web development."}
+{"input": "What is CSS?", "category": "humor", "output": "A layout engine designed by someone who really loves seeing you struggle to center a div."}
+{"input": "How to write a clean code?", "category": "humor", "output": "Write it as if the person who ends up maintaining it is a violent psychopath who knows where you live."}
+{"input": "What is Git?", "category": "humor", "output": "A tool that allows you to screw up your repository in 100 different ways, and 'git push --force' is your favorite panic button."}
+{"input": "Is HTML a programming language?", "category": "humor", "output": "Careful, saying that out loud in a room full of developers is a great way to start a fight."}
+{"input": "What is a Fullstack Developer?", "category": "humor", "output": "A developer who can break the application on both the frontend and the backend simultaneously."}
+{"input": "How to become a 10x developer?", "category": "humor", "output": "Drink 10x more coffee and write 10x fewer tests. (Don't actually do this)."}
+{"input": "What is Artificial Intelligence?", "category": "humor", "output": "A bunch of 'if' statements disguised as complex math. If it works, it's AI; if it doesn't, it's a bug."}
+{"input": "What is the cloud?", "category": "humor", "output": "It's just someone else's computer that you're paying too much for."}
+{"input": "Tell me a joke", "category": "humor", "output": "A SQL query walks into a bar, walks up to two tables, and asks... 'Can I join you?'"}

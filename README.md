@@ -264,7 +264,7 @@ echo '{"input": "How to calculate ROI?", "output": "ROI calculation involves div
 ### 🚀 **Contribution Workflow**
 
 #### **For Custom Training Data**:
-1. **Fork**: `git clone https://github.com/nordevelopment/learning-master-ai`
+1. **Clone**: `git clone https://github.com/nordevelopment/learning-master-ai.git`
 2. **Create Domain**: `mkdir ai-project/data/training/your-domain`
 3. **Add Examples**: Create JSONL file with Q&A pairs
 4. **Test Training**: `npm run train` and `npm run test`
