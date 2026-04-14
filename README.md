@@ -4,7 +4,7 @@
 ![AI Architecture](https://img.shields.io/badge/Architecture-Hybrid_AI-blue?style=for-the-badge)
 ![Education](https://img.shields.io/badge/Education-Interactive_Learning-green?style=for-the-badge)
 
-> **Universal Educational Framework for AI Fundamentals and Technology Training**  
+> **Universal Educational Framework for AI Fundamentals and Technology **  
 > Learn how modern AI systems work from the inside. This project demonstrates core Natural Language Processing (NLP) concepts through a practical, fully transparent implementation—no black boxes, no external LLM dependencies.
 
 ## 🚀 Why this project?
