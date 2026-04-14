@@ -59,7 +59,7 @@ src/
 ## 📚 Customization
 
 To train your own AI assistant on any topic:
-1. Create a new file `ai-project/data/training/your-topic.jsonl`.
+1. Create a new file `your-topic.jsonl` in the `ai-project/data/training/` folder.
 2. Add JSON lines: `{"input": "Question?", "output": "Answer...", "category": "topic"}`.
 3. Run `npm run train`.
 
@@ -71,13 +71,13 @@ ture
 
 ```
 nodejs-master-ai/
-|
-|--- ai-core.js                 # Core AI class with NLP processing
-|--- train-ai.js               # Training script with smart caching
-|--- test-ai-enhanced.js        # Comprehensive testing suite
-|--- chat-server-fastify.js    # Fastify web server with API
-|--- enhanced-nlp.js            # Advanced NLP processing module
-|--- FileManager.js             # File operations utilities
+|---src/
+|---- ai-core.js                 # Core AI class with NLP processing
+|---- train-ai.js               # Training script with smart caching
+|---- test-ai-enhanced.js        # Comprehensive testing suite
+|---- chat-server-fastify.js    # Fastify web server with API
+|---- enhanced-nlp.js            # Advanced NLP processing module
+|---- FileManager.js             # File operations utilities
 |
 |--- ai-project/                # AI data and models storage
 |   |--- data/
