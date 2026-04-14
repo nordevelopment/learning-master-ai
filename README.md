@@ -1,4 +1,4 @@
-# Learning AI Sandbox Educational Framework
+# AI Learning Master Sandbox
 
 ![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white)
 ![AI Architecture](https://img.shields.io/badge/Architecture-Hybrid_AI-blue?style=for-the-badge)
@@ -10,7 +10,7 @@ This project demonstrates core Natural Language Processing (NLP) concepts throug
 
 
 **Built with Node.js and Passion for AI Education**  
-*Educational AI for the modern developer*
+*Educational AI for the modern developer, Explainable AI Sandbox, Insight, Thought, Master*
 
 ## 🚀 Why this project?
 

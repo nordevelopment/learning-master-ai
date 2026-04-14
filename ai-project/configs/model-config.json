@@ -1,7 +1,7 @@
 {
-  "name": "Learning Master AI",
+  "name": "AI Learning Master Sandbox",
   "version": "2.0.0",
-  "type": "Educational Sandbox",
+  "type": "AI Educational Sandbox",
   "engine": "Hybrid TF-IDF + Naive Bayes",
   "parameters": {
     "description": "Core configuration for the NLP engine",

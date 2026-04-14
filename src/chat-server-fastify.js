@@ -111,6 +111,68 @@ app.get('/api/capabilities', async (request, reply) => {
     };
 });
 
+// Debug endpoint - AI visualization data
+app.get('/api/debug', async (request, reply) => {
+    // Get top IDF values
+    const topIdf = Array.from(ai.idfMap.entries())
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 20)
+      .map(([word, score]) => ({ word, idf: parseFloat(score.toFixed(3)) }));
+    
+    // Get Intent stats
+    const intentStats = {
+      totalCategories: ai.nlp.intentStats.intents.size,
+      totalVocabulary: ai.nlp.intentStats.vocabulary.size,
+      categories: Array.from(ai.nlp.intentStats.intents.entries())
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 10)
+        .map(([name, count]) => ({ name, count }))
+    };
+    
+    // Get manual weights
+    const manualWeights = {
+      high: ['express', 'fastify', 'node', 'mongodb'],
+      medium: ['npm', 'async', 'database', 'sql'],
+      standard: ['install', 'create', 'fix', 'error']
+    };
+    
+    // Get BM25 params
+    const bm25Params = {
+      k1: ai.k1,
+      b: ai.b,
+      avgDocLength: parseFloat(ai.avgDocLength.toFixed(2))
+    };
+    
+    // Get recent conversation context
+    const recentContext = ai.conversationHistory.slice(-5).map(h => ({
+      question: h.question.slice(0, 50) + (h.question.length > 50 ? '...' : ''),
+      keywords: h.processed.keywords.slice(0, 5),
+      intent: h.processed.intent[0]?.intent || 'unknown'
+    }));
+    
+    return {
+      version: '4.0.0',
+      algorithm: 'BM25 + Naive Bayes + TF-IDF Hybrid',
+      bm25: bm25Params,
+      idf: {
+        count: ai.idfMap.size,
+        top20: topIdf
+      },
+      intent: intentStats,
+      manualWeights: manualWeights,
+      context: {
+        historyLength: ai.conversationHistory.length,
+        maxHistory: ai.maxHistoryLength,
+        recent: recentContext
+      },
+      stats: {
+        totalDocuments: ai.totalDocuments,
+        totalPatterns: ai.responses.size,
+        contextAge: ai.lastContextUpdate
+      }
+    };
+});
+
 // Start server
 const PORT = process.env.PORT || 3000;
 

@@ -8,9 +8,14 @@ class SimpleAI {
     this.trained = false;
     this.nlp = new EnhancedNLP();
     this.conversationHistory = [];
-    this.maxHistoryLength = 10;
+    this.maxHistoryLength = 20; // Extended context window
     
-    // TF-IDF Data
+    // BM25 Parameters
+    this.k1 = 1.5;  // Term frequency saturation
+    this.b = 0.75;  // Length normalization
+    this.avgDocLength = 0;
+    
+    // TF-IDF Data (kept for backward compatibility)
     this.idfMap = new Map();
     this.trainingVectors = [];
     this.totalDocuments = 0;
@@ -18,7 +23,7 @@ class SimpleAI {
     // Context / Memory
     this.activeSlots = {};
     this.lastContextUpdate = 0;
-    this.maxContextAge = 3; // Keep memory for 3 turns
+    this.maxContextAge = 5; // Keep memory for 5 turns (extended)
   }
 
   // Train on data with enhanced NLP and TF-IDF
@@ -51,7 +56,11 @@ class SimpleAI {
       this.idfMap.set(word, Math.log(this.totalDocuments / count) + 1);
     }
 
-    // 3. Create TF-IDF vectors for each training item
+    // 3. Calculate average document length for BM25
+    this.avgDocLength = this.calculateAvgDocLength(trainingData);
+    console.log(`Average document length: ${this.avgDocLength.toFixed(2)} keywords`);
+
+    // 4. Create TF-IDF vectors for each training item (with docLength for BM25)
     trainingData.forEach((item, index) => {
       const processed = this.nlp.processText(item.input);
       const keywords = processed.keywords;
@@ -78,7 +87,8 @@ class SimpleAI {
         input: item.input,
         entities: processed.entities,
         intent: processed.intent,
-        vector: vector
+        vector: vector,
+        docLength: keywords.length  // Store for BM25
       };
 
       this.trainingVectors.push(trainingItem);
@@ -230,47 +240,68 @@ class SimpleAI {
         };
       }
 
-      // 5. Rank Candidates
+      // 5. Rank Candidates using BM25
       let bestResponse = null;
       let maxSimilarity = -1;
       const scoredCandidates = [];
 
+      // Normalize question TF for BM25
+      const questionDocLength = keywords.length;
+
       for (const candidate of candidates) {
-        let similarity = this.calculateCosineSimilarity(questionVector, candidate.vector);
+        // Use BM25 score instead of Cosine Similarity
+        let score = this.calculateBM25Score(qTfMap, candidate.vector, candidate.docLength);
         
+        // Technology context boost
         if (this.activeSlots.technology && candidate.input.toLowerCase().includes(this.activeSlots.technology)) {
-          similarity += 0.15;
+          score *= 1.15;
         }
         
-        let finalScore = similarity;
+        // Intent match bonus
         if (processed.intent && processed.intent.length > 0 && candidate.intent && candidate.intent.length > 0) {
           const hasIntentMatch = processed.intent.some(qInt => 
             candidate.intent.some(cInt => qInt.intent === cInt.intent)
           );
-          if (hasIntentMatch) finalScore += 0.2;
+          if (hasIntentMatch) score *= 1.2;
         }
 
         scoredCandidates.push({
           input: candidate.input,
-          similarity: finalScore,
+          similarity: score,
           output: candidate.output
         });
 
-        if (finalScore > maxSimilarity) {
-          maxSimilarity = finalScore;
+        if (score > maxSimilarity) {
+          maxSimilarity = score;
           bestResponse = candidate;
         }
       }
       
-      // Confidence threshold
-      if (maxSimilarity < 0.1 || !bestResponse) {
-        const fallback = this.generateFallbackResponse(processed);
+      // Normalize confidence score (BM25 scores can be higher)
+      const normalizedConfidence = Math.min(maxSimilarity / 10, 1);
+      
+      // Negative Matching: Filter out weak candidates with re-ranking
+      const strongCandidates = scoredCandidates.filter(c => c.similarity > maxSimilarity * 0.5);
+      
+      // If no strong candidates, return clarifying question
+      if (strongCandidates.length === 0 || normalizedConfidence < 0.05) {
+        const fallback = this.generateClarifyingQuestion(processed);
         return { 
           answer: fallback, 
-          thinking: { keywords, intent: processed.intent, confidence: maxSimilarity, candidates: scoredCandidates.sort((a,b) => b.similarity - a.similarity).slice(0, 3), slots: currentSlots } 
+          thinking: { 
+            keywords, 
+            intent: processed.intent, 
+            confidence: normalizedConfidence, 
+            candidates: scoredCandidates.slice(0, 3),
+            slots: currentSlots,
+            reranked: false
+          } 
         };
       }
-
+      
+      // Re-ranking: Sort by score and apply final adjustments
+      strongCandidates.sort((a, b) => b.similarity - a.similarity);
+      
       // Context Decay
       this.lastContextUpdate++;
       if (this.lastContextUpdate > this.maxContextAge) {
@@ -278,7 +309,7 @@ class SimpleAI {
       }
       
       let finalAnswer = bestResponse.output;
-      if (maxSimilarity > 0.4) {
+      if (normalizedConfidence > 0.4) {
         finalAnswer = this.enhanceResponse(bestResponse.output, processed);
       }
       
@@ -287,9 +318,11 @@ class SimpleAI {
         thinking: {
           keywords: keywords,
           intent: (processed.intent || []).slice(0, 3),
-          confidence: maxSimilarity,
+          confidence: normalizedConfidence,
           candidates: scoredCandidates.sort((a,b) => b.similarity - a.similarity).slice(0, 3),
-          slots: currentSlots
+          slots: currentSlots,
+          reranked: true,
+          algorithm: 'BM25'
         }
       };
     } catch (error) {
@@ -349,30 +382,34 @@ class SimpleAI {
     this.lastContextUpdate = 0;
   }
 
-  // Calculate Cosine Similarity between two TF-IDF vectors
-  calculateCosineSimilarity(vec1, vec2) {
-    let dotProduct = 0;
-    let magnitude1 = 0;
-    let magnitude2 = 0;
-
-    // We only need to iterate over words in vec1 because if it's not in vec1, dot product is 0
-    for (const [word, weight1] of vec1.entries()) {
-      const weight2 = vec2.get(word) || 0;
-      dotProduct += weight1 * weight2;
+  // Calculate BM25 Score - Improved ranking algorithm
+  // BM25 is better than TF-IDF for variable document lengths
+  calculateBM25Score(queryTerms, docVector, docLength) {
+    let score = 0;
+    
+    for (const [term, queryTf] of queryTerms.entries()) {
+      const docTf = docVector.get(term) || 0;
+      const idf = this.idfMap.get(term) || Math.log(this.totalDocuments + 1);
+      const manualBonus = this.getManualWeight(term);
+      
+      // BM25 formula with term frequency saturation
+      // Prevents over-weighting of frequent terms
+      const tfComponent = (docTf * (this.k1 + 1)) / (docTf + this.k1 * (1 - this.b + this.b * (docLength / this.avgDocLength)));
+      
+      score += idf * tfComponent * manualBonus;
     }
-
-    for (const weight of vec1.values()) {
-      magnitude1 += weight * weight;
-    }
-    for (const weight of vec2.values()) {
-      magnitude2 += weight * weight;
-    }
-
-    magnitude1 = Math.sqrt(magnitude1);
-    magnitude2 = Math.sqrt(magnitude2);
-
-    if (magnitude1 === 0 || magnitude2 === 0) return 0;
-    return dotProduct / (magnitude1 * magnitude2);
+    
+    return score;
+  }
+  
+  // Calculate Average Document Length for BM25 normalization
+  calculateAvgDocLength(trainingData) {
+    let totalLength = 0;
+    trainingData.forEach(item => {
+      const processed = this.nlp.processText(item.input);
+      totalLength += processed.keywords.length;
+    });
+    return totalLength / trainingData.length;
   }
   
   // Add to conversation history for context
@@ -419,6 +456,71 @@ class SimpleAI {
     return baseResponse;
   }
   
+  // Generate clarifying question when confidence is too low (Negative Matching)
+  generateClarifyingQuestion(processed) {
+    const entities = processed?.entities || [];
+    const intent = processed?.intent || [];
+    
+    if (entities.length > 0) {
+      return `I see you're asking about ${entities.join(', ')}. Could you provide more details about what you'd like to know? For example: "How do I use ${entities[0]} with Node.js?"`;
+    }
+    
+    if (intent.length > 0) {
+      const topIntent = intent[0]?.intent || 'general';
+      const intentQuestions = {
+        'how_to': 'What specific task would you like to accomplish? (e.g., creating a server, connecting to database)',
+        'fix_problem': 'What error message are you seeing? Please describe the issue.',
+        'learn_concept': 'Which specific technology or concept would you like to learn about?',
+        'best_practice': 'In what context are you asking about best practices?',
+        'compare_options': 'What technologies or approaches would you like to compare?'
+      };
+      
+      if (intentQuestions[topIntent]) {
+        return `To help you better with "${topIntent}", ${intentQuestions[topIntent]}`;
+      }
+    }
+    
+    return "I'd like to help! Could you rephrase your question with more specific details? For example, mention the technology (Node.js, Express, MongoDB) or what you're trying to achieve.";
+  }
+  
+  // Get weighted context from conversation history (Recency Bias)
+  getWeightedContext() {
+    if (this.conversationHistory.length === 0) return { keywords: [], entities: [] };
+    
+    const weights = [];
+    const totalItems = this.conversationHistory.length;
+    
+    // More recent = higher weight (recency bias)
+    for (let i = totalItems - 1; i >= 0; i--) {
+      const age = totalItems - i;
+      const weight = Math.max(0.2, 1 - (age * 0.1)); // Minimum 0.2 weight
+      weights.push({ history: this.conversationHistory[i], weight });
+    }
+    
+    const allKeywords = new Map();
+    const allEntities = new Map();
+    
+    weights.forEach(({ history, weight }) => {
+      history.processed.keywords.forEach(kw => {
+        allKeywords.set(kw, (allKeywords.get(kw) || 0) + weight);
+      });
+      history.processed.entities.forEach(ent => {
+        allEntities.set(ent, (allEntities.get(ent) || 0) + weight);
+      });
+    });
+    
+    return {
+      keywords: Array.from(allKeywords.entries())
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 20)
+        .map(([kw]) => kw),
+      entities: Array.from(allEntities.entries())
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 10)
+        .map(([ent]) => ent)
+    };
+  }
+  
   // Generate intelligent fallback response
   generateFallbackResponse(processed) {
     // Safe destructuring with fallbacks
@@ -461,8 +563,13 @@ class SimpleAI {
   async saveModel(filePath) {
     const aiModel = {
       type: 'NodeJS-Master-AI-Hybrid',
-      version: '3.0.0',
+      version: '4.0.0',
       trained: this.trained,
+      bm25Params: {
+        k1: this.k1,
+        b: this.b,
+        avgDocLength: this.avgDocLength
+      },
       idf: Object.fromEntries(this.idfMap),
       intentStats: {
         intents: Object.fromEntries(this.nlp.intentStats.intents),
@@ -494,6 +601,13 @@ class SimpleAI {
     this.idfMap = new Map(Object.entries(modelData.idf));
     this.trained = modelData.trained;
     
+    // Load BM25 parameters (v4.0.0+)
+    if (modelData.bm25Params) {
+      this.k1 = modelData.bm25Params.k1 || 1.5;
+      this.b = modelData.bm25Params.b || 0.75;
+      this.avgDocLength = modelData.bm25Params.avgDocLength || 10;
+    }
+    
     // Load Intent Classifier Stats
     if (modelData.intentStats) {
       this.nlp.intentStats.intents = new Map(Object.entries(modelData.intentStats.intents));
@@ -504,10 +618,11 @@ class SimpleAI {
       );
     }
 
-    // Reconstruct vectors and responses map
+    // Reconstruct vectors and responses map (with docLength for BM25)
     this.trainingVectors = modelData.vectors.map(v => ({
       ...v,
-      vector: new Map(Object.entries(v.vector))
+      vector: new Map(Object.entries(v.vector)),
+      docLength: v.docLength || v.vector?.size || 10
     }));
 
     this.responses.clear();
@@ -522,6 +637,7 @@ class SimpleAI {
     });
     
     console.log(`Loaded Hybrid AI model: ${modelData.type} v${modelData.version}`);
+    console.log(`BM25 params: k1=${this.k1}, b=${this.b}, avgDocLen=${this.avgDocLength.toFixed(2)}`);
     return modelData;
   }
 }

@@ -1,4 +1,6 @@
 // Enhanced Natural Language Processing for NodeJS-Master-AI
+const Stemmer = require('snowball');
+
 class EnhancedNLP {
   constructor() {
     this.lemmatizer = this.createSimpleLemmatizer();
@@ -6,6 +8,7 @@ class EnhancedNLP {
     this.contextPatterns = this.createContextPatterns();
     this.intentPatterns = this.createIntentPatterns();
     this.entityExtractors = this.createEntityExtractors();
+    this.stemmer = new Stemmer('english'); // Snowball stemmer
     
     // Naive Bayes Intent Stats
     this.intentStats = {
@@ -308,9 +311,16 @@ class EnhancedNLP {
       .trim();
   }
 
-  // Lemmatization
+  // Snowball Stemmer - fast word normalization
+  stemWord(word) {
+    this.stemmer.setCurrent(word);
+    this.stemmer.stem();
+    return this.stemmer.getCurrent();
+  }
+  
+  // Lemmatization with Snowball fallback
   lemmatize(word) {
-    // Direct mapping
+    // Direct mapping (highest priority)
     if (this.lemmatizer[word]) {
       return this.lemmatizer[word];
     }
@@ -320,6 +330,17 @@ class EnhancedNLP {
       if (word.endsWith(ending) && word.length > ending.length + 2) {
         return word.slice(0, -ending.length) + replacement;
       }
+    }
+    
+    // Snowball Stemmer fallback - normalizes word endings
+    try {
+      const stemmed = this.stemWord(word);
+      // Only use stem if it's different and meaningful
+      if (stemmed !== word && stemmed.length > 2) {
+        return stemmed;
+      }
+    } catch (e) {
+      // Fallback silently
     }
     
     return word;

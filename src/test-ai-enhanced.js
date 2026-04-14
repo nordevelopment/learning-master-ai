@@ -55,17 +55,19 @@ async function testAI() {
 
     testQuestions.forEach((question, index) => {
       const startTime = Date.now();
-      const response = ai.respond(question);
+      const result = ai.respond(question);
       const responseTime = Date.now() - startTime;
       totalResponseTime += responseTime;
 
       console.log(`Q${index + 1}: ${question}`);
-      console.log(`A: ${response}`);
+      console.log(`A: ${result.answer}`);
+      console.log(`Confidence: ${(result.thinking?.confidence * 100).toFixed(1)}%`);
+      console.log(`Algorithm: ${result.thinking?.algorithm || 'N/A'}`);
       console.log(`Time: ${responseTime}ms`);
       console.log('---');
 
       // Simple heuristic for correct response
-      if (!response.includes("I don't understand") && !response.includes("I'm not trained")) {
+      if (!result.answer.includes("I don't understand") && !result.answer.includes("I'm not trained")) {
         correctResponses++;
       }
     });
@@ -118,12 +120,12 @@ async function testAI() {
     ai.conversationHistory = [];
     
     console.log('Question 1: "What is Express?"');
-    const response1 = ai.respond("What is Express?");
-    console.log(`Response 1: ${response1}`);
+    const result1 = ai.respond("What is Express?");
+    console.log(`Response 1: ${result1.answer}`);
     
     console.log('\nQuestion 2: "How to use it?"');
-    const response2 = ai.respond("How to use it?");
-    console.log(`Response 2: ${response2}`);
+    const result2 = ai.respond("How to use it?");
+    console.log(`Response 2: ${result2.answer}`);
     
     console.log(`\nHistory length: ${ai.conversationHistory.length}`);
     console.log('Context awareness:', ai.conversationHistory.length > 0 ? 'Working' : 'Not working');
