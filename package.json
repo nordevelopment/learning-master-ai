@@ -1,19 +1,21 @@
 {
   "name": "ai-learning-master-sandbox",
   "version": "1.0.0",
-  "description": "AI Learning Master Sandbox - Educational framework that demonstrates AI fundamentals through practical implementation. Learn how AI systems work, train them with custom data, and create intelligent assistants for any domain or technology stack.",
+  "description": "AI Learning Master Sandbox framework that helps to learn AI fundamentals through practical implementation. Learn how AI systems work, train them with custom data, and create intelligent assistants for any domain or technology stack.",
   "license": "MIT",
   "author": "Norayr Petrosyan",
   "type": "commonjs",
   "main": "ai-core.js",
   "scripts": {
     "train": "node src/train-ai.js",
+    "train-nlp": "node src/train-nlp.js",
     "test": "node src/test-ai-enhanced.js",
     "chat": "node src/chat-server-fastify.js"
   },
   "dependencies": {
     "@fastify/static": "^9.1.0",
     "fastify": "^5.8.4",
+    "node-nlp": "^3.10.2",
     "snowball": "^0.3.1"
   },
   "devDependencies": {

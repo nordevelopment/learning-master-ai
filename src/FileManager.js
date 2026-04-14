@@ -167,7 +167,7 @@ class FileManager {
   async readTrainingDataAsync(filePath, format = 'jsonl') {
     try {
       const content = await this.readFileAsync(filePath, 'utf8');
-      const lines = content.trim().split('\n').filter(line => line);
+      const lines = content.split('\n').map(line => line.trim()).filter(line => line.length > 0);
 
       if (format === 'jsonl') {
         return lines.map(line => JSON.parse(line));
