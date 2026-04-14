@@ -1,4 +1,4 @@
-# Learning Master AI - Educational Sandbox
+# Learning Master AI: Educational Sandbox
 
 ![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white)
 ![AI Architecture](https://img.shields.io/badge/Architecture-Hybrid_AI-blue?style=for-the-badge)
@@ -67,7 +67,7 @@ To train your own AI assistant on any topic:
 
 **Built with Node.js and Passion for AI Education**  
 *Educational AI for the modern developer*
-ture
+## 🏗️ Project Structure
 
 ```
 nodejs-master-ai/
@@ -81,8 +81,8 @@ nodejs-master-ai/
 |
 |--- ai-project/                # AI data and models storage
 |   |--- data/
-|   |   |--- training/
-|   |   |       |--- nodejs-training.jsonl    # 387 training examples
+|   |   |--- training/  
+|   |   |    put here your training data files - #training data files
 |   |--- models/
 |   |   |   |--- simple-ai-model.json        # Trained AI model
 |   |--- configs/

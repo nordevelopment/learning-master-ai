@@ -1,75 +1,48 @@
 const FileManager = require('./FileManager');
 
 async function showConfigUsage() {
-  console.log('=== NODEJS-MASTER-AI CONFIGURATION ===\n');
+  console.log('=== AI SANDBOX CONFIGURATION & STATE ===\n');
 
   try {
     const aiFileManager = new FileManager('./ai-project');
     
-    // Load current AI model configuration
+    // 1. Load Model Metadata
     const modelConfig = await aiFileManager.readJsonAsync('configs/model-config.json');
     
-    console.log('📋 Current AI Configuration:');
-    console.log(`Name: ${modelConfig.name}`);
+    console.log('📋 Project Metadata:');
+    console.log(`Name:    ${modelConfig.name}`);
     console.log(`Version: ${modelConfig.version}`);
-    console.log(`Type: ${modelConfig.type}`);
-    console.log(`Intelligence Level: ${modelConfig.intelligence_level}`);
-    console.log(`Accuracy: ${modelConfig.accuracy_estimate}`);
+    console.log(`Type:    ${modelConfig.type}`);
+    console.log(`Engine:  ${modelConfig.engine}`);
     
     console.log('\n🎯 Capabilities:');
     modelConfig.capabilities.forEach((capability, index) => {
       console.log(`${index + 1}. ${capability}`);
     });
     
-    console.log('\n📊 Training Statistics:');
-    console.log(`Training Samples: ${modelConfig.training_samples}`);
-    console.log(`Keyword Patterns: ${modelConfig.keyword_patterns}`);
-    console.log(`Model Size: ${modelConfig.model_size_characters} characters`);
-    console.log(`Response Time: ${modelConfig.response_time_ms}`);
-    
-    console.log('\n⚙️ Parameters:');
-    console.log(`Max Tokens: ${modelConfig.parameters.max_tokens}`);
-    console.log(`Temperature: ${modelConfig.parameters.temperature}`);
-    console.log(`Top P: ${modelConfig.parameters.top_p}`);
-    console.log(`Frequency Penalty: ${modelConfig.parameters.frequency_penalty}`);
-    
-    console.log('\n📅 Created:', modelConfig.created);
-    
-    // Load actual AI model to show comparison
+    // 2. Load Actual Trained Model Stats
     const aiModel = await aiFileManager.readJsonAsync('models/simple-ai-model.json');
     
     console.log('\n🤖 Actual AI Model State:');
-    console.log(`Responses Count: ${Object.keys(aiModel.responses).length}`);
-    console.log(`Trained: ${aiModel.trained ? 'Yes' : 'No'}`);
-    console.log(`Model Type: ${aiModel.type}`);
+    console.log(`Trained:           ${aiModel.trained ? '✅ Yes' : '❌ No'}`);
+    console.log(`Knowledge Samples: ${aiModel.totalDocuments}`);
+    console.log(`Stored Vectors:    ${aiModel.vectors.length}`);
+    console.log(`Last Updated:      ${aiModel.created}`);
     
-    console.log('\n💡 Usage Examples:');
-    console.log('1. Node.js Assistant:');
-    console.log('   Ask: "How to write file?"');
-    console.log('   Answer: AI will use keyword matching');
-    console.log('');
-    console.log('2. Framework Comparison:');
-    console.log('   Ask: "Express vs Fastify?"');
-    console.log('   Answer: AI compares features and recommends');
-    console.log('');
-    console.log('3. JavaScript Concepts:');
-    console.log('   Ask: "What is closure?"');
-    console.log('   Answer: AI explains concept with examples');
+    console.log('\n⚙️ Logic Parameters:');
+    console.log(`Confidence Threshold: ${modelConfig.parameters.confidence_threshold}`);
+    console.log(`Context Memory:       ${modelConfig.parameters.context_turns} turns`);
     
-    console.log('\n🔍 Configuration Files:');
-    console.log('- configs/model-config.json: AI metadata and parameters');
-    console.log('- models/simple-ai-model.json: Trained AI brain');
-    console.log('- prompts/chat-prompts.json: AI behavior guidelines');
-    console.log('- data/training/*.jsonl: Knowledge base');
+    console.log('\n🔍 Directory Structure:');
+    console.log('- configs/model-config.json: Static metadata');
+    console.log('- models/simple-ai-model.json: Trained weights (Brain)');
+    console.log('- data/training/*.jsonl:      Source knowledge');
     
-    console.log('\n✅ This configuration could be used for:');
-    console.log('- Future TensorFlow.js integration');
-    console.log('- API endpoint configuration');
-    console.log('- Performance monitoring');
-    console.log('- Custom AI behavior tuning');
+    console.log('\n✅ System is ready and verified.');
     
   } catch (error) {
-    console.error('Error loading configuration:', error);
+    console.error('\n❌ Status Check Failed:');
+    console.error(error.message);
   }
 }
 

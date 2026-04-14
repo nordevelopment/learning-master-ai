@@ -9,8 +9,7 @@
   "scripts": {
     "train": "node src/train-ai.js",
     "test": "node src/test-ai-enhanced.js",
-    "chat": "node src/chat-server-fastify.js",
-    "demo": "node src/simple-ai-training.js"
+    "chat": "node src/chat-server-fastify.js"
   },
   "dependencies": {
     "@fastify/static": "^9.1.0",
